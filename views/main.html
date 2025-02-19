@@ -1,0 +1,54 @@
+<!-- main.html -->
+<section id="main-section">
+    <header>
+      <h1>가계부 메인</h1>
+      <button id="logoutBtn">로그아웃</button>
+    </header>
+  
+    <div class="main-container">
+      <!-- 좌측: 수입/지출 등록, 통계 차트 -->
+      <div class="content">
+        <h2>수입/지출 등록</h2>
+        <form id="ledgerForm">
+          <input type="number" id="amount" placeholder="금액" required>
+          <select id="type">
+            <option value="income">수입</option>
+            <option value="expense">지출</option>
+          </select>
+          <button type="submit">등록</button>
+        </form>
+        <h2>통계 차트</h2>
+        <div id="chart-placeholder">(통계 차트 자리)</div>
+      </div>
+  
+      <!-- 우측/사이드바: 시세 정보 -->
+      <aside class="sidebar">
+        <h3>농수산물 시세</h3>
+        <div id="agriPrices">(시세 정보)</div>
+        <h3>기름값 시세</h3>
+        <div id="fuelPrices">(시세 정보)</div>
+      </aside>
+    </div>
+  
+    <!-- 관리 페이지 탭 -->
+    <div class="tabs-container">
+      <ul class="tabs">
+        <li data-tab="fridge" class="active">냉장고 유통기한 관리</li>
+        <li data-tab="subscribe">구독 관리</li>
+        <li data-tab="electronics">전자제품 자산 관리</li>
+      </ul>
+      <div class="tab-content active" id="tab-fridge">
+        <h2>냉장고 유통기한 관리</h2>
+        <p>유통기한 임박 시 식비 지출 예정 표시</p>
+      </div>
+      <div class="tab-content" id="tab-subscribe">
+        <h2>구독 관리</h2>
+        <p>구독료가 자동으로 고정 지출에 반영됩니다.</p>
+      </div>
+      <div class="tab-content" id="tab-electronics">
+        <h2>전자제품 자산 관리</h2>
+        <p>대규모 지출 및 유지보수 비용 관리</p>
+      </div>
+    </div>
+  </section>
+  
