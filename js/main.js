@@ -148,7 +148,7 @@ function loadLoginPage() {
   });
 }
 
-/** 로그인 페이지 로딩 */
+/** 회원가입 페이지 로딩 */
 function loadSignupPage() {
   loadPage('views/signup.html').then(() => {
     setupSignupPage();
