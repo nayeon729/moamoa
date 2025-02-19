@@ -24,6 +24,29 @@ function loadPage(pageUrl) {
 /** 로그인 페이지 초기화 */
 function setupLoginPage() {
   const loginForm = document.getElementById('loginForm');
+
+  // 로그인 처리
+  loginForm.addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const username = document.getElementById('login-username').value.trim();
+    const password = document.getElementById('login-password').value.trim();
+
+    const user = await db.users.where("username").equals(username).first();
+    if (!user || user.password !== password) {
+      alert("아이디 또는 비밀번호가 올바르지 않습니다.");
+      return;
+    }
+    
+    // 로그인 성공 시, 메인 페이지 동적 로딩
+    currentUser = user;
+    await loadMainPage();
+    loadLedger();
+    loadPrices();
+  });
+}
+
+/** 회원가입 페이지 초기화 */
+function setupSignupPage() {
   const registerForm = document.getElementById('registerForm');
 
   // 회원가입 처리
@@ -48,25 +71,6 @@ function setupLoginPage() {
     await db.users.add({ username, password });
     alert("회원가입 성공! 로그인 해주세요.");
     registerForm.reset();
-  });
-
-  // 로그인 처리
-  loginForm.addEventListener('submit', async function(e) {
-    e.preventDefault();
-    const username = document.getElementById('login-username').value.trim();
-    const password = document.getElementById('login-password').value.trim();
-
-    const user = await db.users.where("username").equals(username).first();
-    if (!user || user.password !== password) {
-      alert("아이디 또는 비밀번호가 올바르지 않습니다.");
-      return;
-    }
-    
-    // 로그인 성공 시, 메인 페이지 동적 로딩
-    currentUser = user;
-    await loadMainPage();
-    loadLedger();
-    loadPrices();
   });
 }
 
@@ -141,6 +145,13 @@ function loadPrices() {
 function loadLoginPage() {
   loadPage('views/login.html').then(() => {
     setupLoginPage();
+  });
+}
+
+/** 로그인 페이지 로딩 */
+function loadSignupPage() {
+  loadPage('views/signup.html').then(() => {
+    setupSignupPage();
   });
 }
 
