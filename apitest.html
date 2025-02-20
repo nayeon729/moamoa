@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <title>title</title>
+    <script>
+        let apiKey = 'bec2b75f-ec08-406a-8708-d08f086a9afa';
+        $.ajax({
+                url:'http://www.kamis.or.kr/service/price/xml.do?action=dailyPriceByCategoryList?serviceKey='+apiKey,
+                type: 'get',
+                dataType: 'jsonp',
+                success: function (response){
+                    console.log(response);
+                    document.write("ㅇㅇ?");
+                },
+                error: function (xhr, status, error) {
+                    console.error('정보를 가져오는 중 오류가 발생했습니다:', error);
+                    document.write("ㄴㄴ?");
+                }
+            });
+    </script>
+</head>
+<body>
+
+</body>
+</html>
