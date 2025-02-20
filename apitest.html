@@ -7,10 +7,13 @@
     <title>title</title>
     <script>
         let apiKey = 'bec2b75f-ec08-406a-8708-d08f086a9afa';
+        const targetApi = 'https://www.kamis.or.kr/service/price/xml.do?action=dailyPriceByCategoryList&p_product_cls_code=02&p_country_code=1101&p_regday=2015-10-01&p_convert_kg_yn=N&p_item_category_code=200&p_cert_key=111&p_cert_id=222&p_returntype=json&serviceKey=' +apiKey;
+        const proxyUrl = `https://corsproxy.io/?${encodeURIComponent(targetApi)}`;
+
         $.ajax({
-                url:'http://www.kamis.or.kr/service/price/xml.do?action=dailyPriceByCategoryList?serviceKey='+apiKey,
+                url: proxyUrl,
                 type: 'get',
-                dataType: 'jsonp',
+                dataType: 'json',
                 success: function (response){
                     console.log(response);
                     document.write("ㅇㅇ?");
