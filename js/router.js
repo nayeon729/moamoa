@@ -1,4 +1,4 @@
-
+//rotuer.js
 import { initLoginPage } from './views/login.js';
 import { initSignupPage } from './views/signup.js';
 import { initMainPage } from './views/main.js';
@@ -10,22 +10,38 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 export function setupRouter() {
-  // 현재 해시 값에 따라 페이지 초기화
   const hash = window.location.hash;
 
-  // 로그인 상태 확인
-  const isLoggedIn = !!getCurrentUser();
-
-  // 해시에 따라 페이지 보여주기
-  if (hash === '#login' || !isLoggedIn) {
-    window.history.replaceState(null, '', '#login');  // 해시 설정
-    initLoginPage();  // 로그인 페이지 초기화
-  } else if (hash === '#signup') {
-    initSignupPage();  // 회원가입 페이지 초기화
-  } else if (hash === '#main' && isLoggedIn) {
-    initMainPage();  // 로그인된 사용자만 메인 페이지 접근 가능
+  if (hash === '#signup') {
+    // ✅ 로그인 여부와 상관없이 signup 페이지 접근 가능
+    initSignupPage();
+  } else if (!getCurrentUser() || hash === '#login') {
+    // 🛡️ currentUser가 없거나 #login일 때 로그인 페이지로 이동
+    window.history.replaceState(null, '', '#login');
+    initLoginPage();
+  } else if (hash === '#main') {
+    // 🏠 로그인한 사용자는 main 페이지 접근
+    initMainPage();
   } else {
-    // 초기 페이지 로드 시 혹은 해쉬 값이 없을 때
-    window.location.hash = isLoggedIn ? '#main' : '#login';
+    // ⚙️ 기본 처리 로직: 로그인 여부 확인 후 라우팅
+    if (getCurrentUser()) {
+      window.location.hash = '#main';
+      initMainPage();
+    } else {
+      window.location.hash = '#login';
+      initLoginPage();
+    }
   }
+
+  // 해시 변경 시 페이지 재초기화
+  window.addEventListener('hashchange', () => {
+    const newHash = window.location.hash;
+    if (newHash === '#login') {
+      initLoginPage();
+    } else if (newHash === '#signup') {
+      initSignupPage();
+    } else if (newHash === '#main') {
+      initMainPage();
+    }
+  });
 }

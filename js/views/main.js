@@ -30,13 +30,20 @@ function setupMainPage() {
       const type = document.getElementById('type').value;
       const date = new Date().toISOString();
       
-      await db.ledger.add({
-        userId: currentUser.id,
-        type,
-        amount,
-        date
-      });
-      
+      const { data, error } = await db
+      .from('ledger')  // 'ledger' 테이블 선택
+      .insert([{
+        user_id: currentUser.id,  // 테이블 컬럼명에 맞게 user_id로 변경
+        type,                     // 수입/지출 유형
+        amount,                   // 금액
+        date                      // 날짜
+      }]);
+
+      if (error) {
+        alert('가계부 등록 중 오류:' + error.message);
+        return;
+      }
+  
       alert("내역이 등록되었습니다.");
       ledgerForm.reset();
       loadLedger(currentUser.id);
@@ -67,11 +74,25 @@ function setupMainPage() {
   loadPrices();
 }
 
-function loadLedger(userId) {
-  db.ledger.where("userId").equals(userId).toArray().then(entries => {
-    console.log("가계부 내역:", entries);
-    // 내역을 DOM에 출력하는 코드를 추가할 수 있습니다.
-  });
+async function loadLedger(userId) {
+  try {
+    const { data: entries, error } = await db
+      .from('ledger')
+      .select('*')
+      .eq('user_id', userId)
+      .order('date', { ascending: false });
+
+    if (error) {
+      console.error('가계부 내역 조회 오류:', error);
+      alert('가계부 내역 조회 중 오류 발생');
+      return [];
+    }
+
+    console.log('가계부 내역:', entries); // 안전하게 콘솔 출력
+    return entries;
+  } catch (err) {
+    console.error('예기치 못한 오류:', err); // 추가 예외 처리
+  }
 }
 
 function loadPrices() {
