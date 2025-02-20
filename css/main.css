@@ -1,0 +1,35 @@
+/* 메인 페이지 전용 스타일 (탭 등) */
+#main-section .tabs-container {
+  margin-top: 20px;
+}
+
+#main-section .tabs {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  border-bottom: 1px solid #ddd;
+}
+
+#main-section .tabs li {
+  padding: 10px 20px;
+  cursor: pointer;
+  border: 1px solid #ddd;
+  border-bottom: none;
+  background: #f0f0f0;
+  margin-right: 5px;
+}
+
+#main-section .tabs li.active {
+  background: #fff;
+  font-weight: bold;
+}
+
+#main-section .tab-content {
+  border: 1px solid #ddd;
+  padding: 20px;
+  display: none;
+}
+
+#main-section .tab-content.active {
+  display: block;
+}

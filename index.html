@@ -1,18 +1,16 @@
-<!-- index.html -->
 <!DOCTYPE html>
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
   <title>가계부 관리 앱</title>
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/common.css">
 </head>
 <body>
-  <!-- 콘텐츠가 동적으로 로드될 영역 -->
+  <!-- views 들이 표시되는 영역 -->
   <div id="app-container"></div>
 
-  <!-- Dexie.js CDN -->
+  <!-- Dexie.js 라이브러리 (vendor에 배치) -->
   <script src="https://unpkg.com/dexie/dist/dexie.js"></script>
-  <!-- 메인 스크립트 -->
-  <script src="js/main.js"></script>
+  <script type="module" src="js/router.js"></script>
 </body>
 </html>

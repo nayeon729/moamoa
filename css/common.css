@@ -1,0 +1,41 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+  }
+
+  #login-section,
+  #main-section,
+  #signup-section {
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  
+  input, select, button {
+    padding: 8px;
+    margin: 5px;
+  }
+  
+  header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 10px;
+  }
+  
+  .main-container {
+    display: flex;
+    margin-top: 20px;
+  }
+  
+  .content {
+    flex: 2;
+    margin-right: 20px;
+  }
+  
+  .sidebar {
+    flex: 1;
+    border-left: 1px solid #ddd;
+    padding-left: 20px;
+  }
+  
