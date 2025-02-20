@@ -1,5 +1,6 @@
 import { loadPage } from '../utils/helpers.js';
 import { db } from '../utils/helpers.js';
+import bcrypt from 'https://cdn.jsdelivr.net/npm/bcryptjs/+esm';
 
 export function initSignupPage() {
   loadPage('views/signup.html').then(() => {
@@ -37,11 +38,13 @@ function setupSignupPage() {
         alert("이미 존재하는 아이디입니다.");
         return;
       }
+
+      const hashedPassword = await bcrypt.hash(password, 10); // saltRounds = 10
       
       // 사용자 등록
       const { data, error: insertError } = await db
         .from('users')
-        .insert([{ username, password }]);
+        .insert([{ username, password: hashedPassword }]);
 
       if (insertError) {
         console.error("회원가입 중 오류:", insertError.message);
