@@ -1,9 +1,9 @@
-import { loadPage } from '../utils/helpers.js';
-import { setCurrentUser, db } from '../utils/helpers.js';
+import { loadPage } from '../../utils/helpers.js';
+import { setCurrentUser, db } from '../../utils/helpers.js';
 import bcrypt from 'https://cdn.jsdelivr.net/npm/bcryptjs/+esm';
 
 export function initLoginPage() {
-  loadPage('views/login.html').then(() => {
+  loadPage('views/user/login.html').then(() => {
     setupLoginPage();
   });
 }

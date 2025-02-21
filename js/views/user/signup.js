@@ -1,9 +1,9 @@
-import { loadPage } from '../utils/helpers.js';
-import { db } from '../utils/helpers.js';
+import { loadPage } from '../../utils/helpers.js';
+import { db } from '../../utils/helpers.js';
 import bcrypt from 'https://cdn.jsdelivr.net/npm/bcryptjs/+esm';
 
 export function initSignupPage() {
-  loadPage('views/signup.html').then(() => {
+  loadPage('views/user/signup.html').then(() => {
     setupSignupPage();
   });
 }
