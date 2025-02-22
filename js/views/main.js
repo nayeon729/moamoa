@@ -50,26 +50,6 @@ function setupMainPage() {
     });
   }
 
-  // 탭 전환 처리
-  const tabs = document.querySelectorAll('.tabs li');
-  const tabContents = document.querySelectorAll('.tab-content');
-  tabs.forEach(tab => {
-    tab.addEventListener('click', function() {
-      tabs.forEach(t => t.classList.remove('active'));
-      tabContents.forEach(content => content.classList.remove('active'));
-      
-      this.classList.add('active');
-      const targetTab = this.getAttribute('data-tab');
-      document.getElementById(`tab-${targetTab}`).classList.add('active');
-    });
-  });
-  
-  // 기본 탭 활성화
-  if (tabs.length > 0) {
-    tabs[0].classList.add('active');
-    document.getElementById(`tab-${tabs[0].getAttribute('data-tab')}`).classList.add('active');
-  }
-
   loadLedger(currentUser.id);
   loadPrices();
 }
