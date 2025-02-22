@@ -4,52 +4,38 @@ import { initSignupPage } from './views/user/signup.js';
 import { initMainPage } from './views/main.js';
 import { getCurrentUser } from './utils/helpers.js';
 
-document.addEventListener('DOMContentLoaded', () => {
-  setupRouter();
-  window.addEventListener('hashchange', setupRouter);  // 해시 변경 시 다시 호출
-});
+// 해시와 해당 페이지 초기화 함수 매핑
+const routes = {
+  '#login': initLoginPage,
+  '#signup': initSignupPage,
+  '#main': initMainPage
+};
 
 function toggleHeader(show) {
   document.getElementById('common-header').style.display = show ? 'block' : 'none';
 }
 
-export function setupRouter() {
-  const hash = window.location.hash;
+function setupRouter() {
+  const hash = window.location.hash || '#login';
 
-  if (hash === '#signup') {
-    toggleHeader(false); // 회원가입 페이지: 헤더 숨김
-    // ✅ 로그인 여부와 상관없이 signup 페이지 접근 가능
-    initSignupPage();
-  } else if (!getCurrentUser() || hash === '#login') {
-    toggleHeader(false); // 로그인 페이지: 헤더 숨김
-    // 🛡️ currentUser가 없거나 #login일 때 로그인 페이지로 이동
+  // 로그인 상태가 아니면서 로그인/회원가입 페이지가 아니라면 로그인 페이지로 리다이렉트
+  if (!getCurrentUser() && hash !== '#login' && hash !== '#signup') {
     window.history.replaceState(null, '', '#login');
-    initLoginPage();
-  } else if (hash === '#main') {
-    toggleHeader(true); // 로그인 시 헤더 표시
-    // 🏠 로그인한 사용자는 main 페이지 접근
-    initMainPage();
-  } else {
-    toggleHeader(true); // 로그인 시 헤더 표시
-    // ⚙️ 기본 처리 로직: 로그인 여부 확인 후 라우팅
-    if (getCurrentUser()) {
-      window.location.hash = '#main';
-      initMainPage();
-    } else {
-      window.location.hash = '#login';
-      initLoginPage();
-    }
+    return initLoginPage();
   }
 
-  // 해시 변경 시 페이지 재초기화
-  window.addEventListener('hashchange', () => {
-    const newHash = window.location.hash;
-    if (newHash === '#login') {
-      initLoginPage();
-    } else if (newHash === '#signup') {
-      initSignupPage();
-    } else if (newHash === '#main') {
-      initMainPage();
-    }
-  });
+  // 로그인, 회원가입 페이지에서는 헤더 숨김, 그 외에는 헤더 표시
+  toggleHeader(hash !== '#login' && hash !== '#signup');
+
+  // 등록된 라우트가 있으면 해당 함수 실행, 없으면 기본으로 main 페이지 실행
+  (routes[hash] || (() => {
+    window.location.hash = '#main';
+    initMainPage();
+  }))();
 }
+
+// DOMContentLoaded 시 및 해시 변경 시 한 번만 이벤트 리스너 등록
+document.addEventListener('DOMContentLoaded', () => {
+  setupRouter();
+  window.addEventListener('hashchange', setupRouter);
+});
