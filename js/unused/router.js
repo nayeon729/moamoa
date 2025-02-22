@@ -1,8 +1,8 @@
 //rotuer.js
-import { initLoginPage } from './views/user/login.js';
-import { initSignupPage } from './views/user/signup.js';
-import { initMainPage } from './views/main.js';
-import { getCurrentUser } from './utils/helpers.js';
+import { initLoginPage } from '../views/user/login.js';
+import { initSignupPage } from '../views/user/signup.js';
+import { initMainPage } from '../views/main.js';
+import { getCurrentUser } from '../utils/helpers.js';
 
 // 해시와 해당 페이지 초기화 함수 매핑
 const routes = {
