@@ -1,9 +1,12 @@
+//main.js
 import { loadPage, db, getCurrentUser } from '../utils/helpers.js';
 import { Calendar } from 'https://cdn.skypack.dev/@fullcalendar/core';
 import dayGridPlugin from 'https://cdn.skypack.dev/@fullcalendar/daygrid';
 
+// 메인 페이지 초기화 함수
 export function initMainPage() {
   loadPage('views/main.html').then(() => {
+    // HTML 로드 후 각 기능별 초기화 함수 호출
     setupMainPage();
   });
 }
@@ -16,6 +19,14 @@ function setupMainPage() {
     return;
   }
 
+  setupLogout();
+  setupLedgerForm(currentUser);
+  initializeCalendar(currentUser);
+  loadLedger(currentUser.id);
+  loadPrices();
+}
+
+function setupLogout() {
   const logoutBtn = document.getElementById('logoutBtn');
   if (logoutBtn) {
     logoutBtn.addEventListener('click', () => {
@@ -23,7 +34,9 @@ function setupMainPage() {
       window.location.hash = '#login';
     });
   }
+}
 
+function setupLedgerForm(currentUser) {
   const ledgerForm = document.getElementById('ledgerForm');
   if (ledgerForm) {
     ledgerForm.addEventListener('submit', async (e) => {
@@ -51,6 +64,9 @@ function setupMainPage() {
       loadLedger(currentUser.id);
     });
   }
+}
+
+function initializeCalendar(currentUser) {
   const calendarEl = document.getElementById('calendar');
   if (calendarEl) {
     const calendar = new Calendar(calendarEl, {
@@ -63,10 +79,10 @@ function setupMainPage() {
         right: 'dayGridMonth,timeGridWeek,timeGridDay'
       },
       selectable: true,
-      dateClick: function(info) {
+      dateClick(info) {
         alert(`선택한 날짜: ${info.dateStr}`);
       },
-      events: async function(fetchInfo, successCallback, failureCallback) {
+      events: async (fetchInfo, successCallback, failureCallback) => {
         try {
           const { data: entries, error } = await db
               .from('ledger')
@@ -92,12 +108,8 @@ function setupMainPage() {
         }
       }
     });
-
     calendar.render();
   }
-
-  loadLedger(currentUser.id);
-  loadPrices();
 }
 
 async function loadLedger(userId) {
