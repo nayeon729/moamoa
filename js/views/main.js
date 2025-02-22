@@ -1,4 +1,6 @@
 import { loadPage, db, getCurrentUser } from '../utils/helpers.js';
+import { Calendar } from 'https://cdn.skypack.dev/@fullcalendar/core';
+import dayGridPlugin from 'https://cdn.skypack.dev/@fullcalendar/daygrid';
 
 export function initMainPage() {
   loadPage('views/main.html').then(() => {
@@ -48,6 +50,50 @@ function setupMainPage() {
       ledgerForm.reset();
       loadLedger(currentUser.id);
     });
+  }
+  const calendarEl = document.getElementById('calendar');
+  if (calendarEl) {
+    const calendar = new Calendar(calendarEl, {
+      plugins: [dayGridPlugin],
+      initialView: 'dayGridMonth',
+      locale: 'ko',
+      headerToolbar: {
+        left: 'prev,next today',
+        center: 'title',
+        right: 'dayGridMonth,timeGridWeek,timeGridDay'
+      },
+      selectable: true,
+      dateClick: function(info) {
+        alert(`선택한 날짜: ${info.dateStr}`);
+      },
+      events: async function(fetchInfo, successCallback, failureCallback) {
+        try {
+          const { data: entries, error } = await db
+              .from('ledger')
+              .select('*')
+              .eq('user_id', currentUser.id);
+
+          if (error) {
+            console.error('이벤트 불러오기 오류:', error);
+            failureCallback(error);
+            return;
+          }
+
+          const events = entries.map(entry => ({
+            title: `${entry.type === 'income' ? '수입' : '지출'}: ${entry.amount}원`,
+            start: entry.date,
+            allDay: true
+          }));
+
+          successCallback(events);
+        } catch (err) {
+          console.error('예기치 못한 오류:', err);
+          failureCallback(err);
+        }
+      }
+    });
+
+    calendar.render();
   }
 
   loadLedger(currentUser.id);
