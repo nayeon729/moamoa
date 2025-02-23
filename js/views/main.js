@@ -1,33 +1,16 @@
-import { getCurrentUser } from '../utils/helpers.js';
-import { db } from '../utils/helpers.js';
+// main.js
+import { db, checkLogin, setupLogout } from '../utils/helpers.js';
 import { Calendar } from 'https://cdn.skypack.dev/@fullcalendar/core';
 import dayGridPlugin from 'https://cdn.skypack.dev/@fullcalendar/daygrid';
 
-// 페이지 로드 시 로그인 상태 확인 및 메인 페이지 초기화
 document.addEventListener('DOMContentLoaded', () => {
-  const currentUser = getCurrentUser();
-  if (!currentUser) {
-    alert("로그인이 필요합니다.");
-    window.location.href = './user/login.html';
-    return;
-  }
-
+  const currentUser = checkLogin();
   setupLogout();
   setupLedgerForm(currentUser);
   initializeCalendar(currentUser);
   loadLedger(currentUser.id);
   loadPrices();
 });
-
-function setupLogout() {
-  const logoutBtn = document.getElementById('logoutBtn');
-  if (logoutBtn) {
-    logoutBtn.addEventListener('click', () => {
-      localStorage.removeItem('currentUser');
-      window.location.href = './user/login.html';
-    });
-  }
-}
 
 function setupLedgerForm(currentUser) {
   const ledgerForm = document.getElementById('ledgerForm');
