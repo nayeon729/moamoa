@@ -1,5 +1,5 @@
 // main.js
-import { db, checkLogin, setupLogout } from '../utils/helpers.js';
+import { db, checkLogin, setupLogout } from '../../js/utils/helpers.js';
 import { Calendar } from 'https://cdn.skypack.dev/@fullcalendar/core';
 import dayGridPlugin from 'https://cdn.skypack.dev/@fullcalendar/daygrid';
 

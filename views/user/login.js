@@ -1,4 +1,4 @@
-import { setCurrentUser, db } from '../../utils/helpers.js';
+import { setCurrentUser, db } from '../../js/utils/helpers.js';
 import bcrypt from 'https://cdn.jsdelivr.net/npm/bcryptjs/+esm';
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       alert("로그인 성공!");
       setCurrentUser(user);
-      window.location.href = '../main.html';
+      window.location.href = '../main/main.html';
     });
   }
 });

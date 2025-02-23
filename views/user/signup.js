@@ -1,4 +1,4 @@
-import { db } from '../../utils/helpers.js';
+import { db } from '../../js/utils/helpers.js';
 import bcrypt from 'https://cdn.jsdelivr.net/npm/bcryptjs/+esm';
 
 document.addEventListener('DOMContentLoaded', () => {

@@ -23,7 +23,7 @@ export function checkLogin() {
   const currentUser = getCurrentUser();
   if (!currentUser) {
     alert('로그인이 필요합니다.');
-    window.location.href = '../views/user/login.html';
+    window.location.href = '../user/login.html';
   }
   return currentUser;
 }
@@ -34,7 +34,7 @@ export function setupLogout() {
   if (logoutBtn) {
     logoutBtn.addEventListener('click', () => {
       clearCurrentUser();
-      window.location.href = '../views/user/login.html';
+      window.location.href = '../user/login.html';
     });
   }
 }
