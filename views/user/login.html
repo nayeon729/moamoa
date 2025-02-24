@@ -5,20 +5,20 @@
   <title>가계부 관리 앱 - 로그인</title>
   <link rel="stylesheet" href="../../css/common.css">
   <link rel="stylesheet" href="./login.css">
-  <!-- Bulma CSS (옵션) -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
 </head>
 <body>
-<section id="login-section">
-  <h2>로그인</h2>
+<section id="container">
+    <h1>L o g &nbsp;&nbsp;i n</h1>  
   <form id="loginForm">
-    <input type="text" id="login-username" placeholder="아이디" required>
-    <input type="password" id="login-password" placeholder="비밀번호" required>
+    <P>아이디</P>
+    <input type="text" id="login-username" required>
+    <p>비밀번호</p>
+    <input type="password" id="login-password" required>
     <button type="submit">로그인</button>
   </form>
-  <p>
-    회원가입하지 않으셨다면, <a href="./signup.html">회원가입</a> 페이지에서 가입하세요.
-  </p>
+
+    <a href="./signup.html" id="signup-btn">회원가입</a>
+
 </section>
 <script type="module" src="./login.js"></script>
 </body>
