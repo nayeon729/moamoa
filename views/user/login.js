@@ -11,9 +11,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
       // 사용자 정보 조회s
       const { data: user, error } = await db
-          .from('users')
+          .from('user')
           .select('*')
-          .eq('username', username)
+          .eq('user_id', username)
           .single();
 
       if (!user || error) {

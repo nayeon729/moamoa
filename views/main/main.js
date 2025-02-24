@@ -93,7 +93,7 @@ async function loadLedger(userId) {
 
     if (error) {
       console.error('가계부 내역 조회 오류:', error);
-      alert('가계부 내역 조회 중 오류 발생');
+      alert('가계부 내역이 조회되지 않습니다.');
       return [];
     }
     console.log('가계부 내역:', entries);

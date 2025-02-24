@@ -16,9 +16,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
       // 사용자 존재 여부 확인
       const { data: existingUser, error: userCheckError } = await db
-          .from('users')
+          .from('user')
           .select('*')
-          .eq('username', username)
+          .eq('user_id', username)
           .limit(1);
 
       if (userCheckError) {
@@ -33,8 +33,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
       const hashedPassword = await bcrypt.hash(password, 10);
       const { data, error: insertError } = await db
-          .from('users')
-          .insert([{ username, password: hashedPassword }]);
+          .from('user')
+          .insert([{ user_id: username, password: hashedPassword, nickname: username, email: '' }]);
 
       if (insertError) {
         console.error("회원가입 중 오류:", insertError.message);
