@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
       alert("로그인 성공!");
-      setCurrentUser(user);
+      setCurrentUser(user.user_id);
       window.location.href = '../main/main.html';
     });
   }
