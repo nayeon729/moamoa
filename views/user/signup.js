@@ -8,9 +8,15 @@ document.addEventListener('DOMContentLoaded', () => {
       e.preventDefault();
       const username = document.getElementById('reg-username').value.trim();
       const password = document.getElementById('reg-password').value.trim();
+      const email = document.getElementById('reg-email').value.trim();
 
       if (!username || !password) {
         alert("아이디와 비밀번호를 입력해주세요.");
+        return;
+      }
+
+      if (!email) {
+        alert("이메일을 입력해주세요.");
         return;
       }
 
@@ -34,7 +40,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const hashedPassword = await bcrypt.hash(password, 10);
       const { data, error: insertError } = await db
           .from('user')
-          .insert([{ user_id: username, password: hashedPassword, nickname: username, email: '' }]);
+          .insert([{ user_id: username, password: hashedPassword, nickname: username, email: email }]);
 
       if (insertError) {
         console.error("회원가입 중 오류:", insertError.message);
