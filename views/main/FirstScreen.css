@@ -1,0 +1,183 @@
+body {
+    display: flex;
+    /* 화면 중앙 정렬을 위한 flexbox 사용 */
+    justify-content: center;
+    /* 수평 가운데 정렬 */
+    align-items: center;
+    /* 수직 가운데 정렬 */
+    flex-direction: column;
+    /* 요소들을 세로로 배치 */
+    height: 100vh;
+    /* 화면 전체 높이를 차지 */
+    background: linear-gradient(0deg, #94c1ce, #01c1f1);
+    /* 배경 그라디언트 효과 */
+    color: white;
+    /* 텍스트 색상을 흰색으로 */
+    text-align: center;
+    /* 텍스트 가운데 정렬 */
+    font-family: 'Arial', sans-serif;
+    /* 폰트 설정 */
+    overflow: hidden;
+    /* 애니메이션이 밖으로 넘치지 않도록 설정 */
+}
+
+/*로고 위치 크기 조정*/
+.logo {
+    position: absolute;
+    /* 화면에 고정 */
+    top: 40px;
+    /* 상단에서 40px 떨어진 위치 */
+    left: 40px;
+    /* 왼쪽에서 40px 떨어진 위치 */
+    width: 100px;
+    /* 로고 크기 */
+    height: auto;
+    /* 가로 비율 유지 */
+}
+/*로그인 회원가입 위치 조정 */
+.auth-buttons {
+    position: absolute;
+    top: 20px;
+    right: 0;
+    display : flex;
+    justify-content : space-between; /* 요소를 양쪽 끝으로 정렬 */
+    align-items: center;
+    padding: 15px 30px;
+    color: white;
+
+}
+.auth-buttons {
+    display: flex;
+    gap: 10px; /* 로그인, 회원가입 버튼 간격 */
+    }
+
+    .auth-buttons a {
+    text-decoration: none;
+    color: white;
+    padding: 5px 15px;
+    border-radius: 15px;
+    }
+
+    .login-btn {
+    background: transparent;
+    border: 1px solid white;
+    }
+
+    .signup-btn {
+        background: transparent;
+        border: 1px solid white;
+    }
+
+
+.title-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* 뷰포트 높이만큼 채우기 */
+  
+}
+
+.people {
+    width: 300px;
+    height: auto;
+}
+
+
+/*
+제목 스타일
+*/
+.hero h1 {
+    font-size: 3rem;
+    /* 글자 크기 설정 */
+}
+
+/*
+영수증 애니메이션 컨테이너
+*/
+.receipt-container {
+    /* position: relative; */
+    /* 내부 요소들을 절대 위치로 배치할 수 있도록 설정 */
+    height: 150px;
+    /* 컨테이너 높이 지정 */
+    width: 300px;
+    /* 컨테이너 너비 지정 */
+    display: flex;
+    /* 세로 방향 정렬을 위해 flexbox 사용 */
+    flex-direction: column;
+    /* 자식 요소들을 위아래로 배치 */
+    align-items: center;
+    /* 수평 중앙 정렬 */
+}
+
+/* 
+개별 영수증 스타일
+*/
+.receipt {
+    position: absolute;
+    /* 영수증이 컨테이너 안에서 개별적으로 움직이도록 설정 */
+    background: white;
+    /* 영수증 배경 색상 */
+    color: black;
+    /* 텍스트 색상 */
+    padding: 10px 20px;
+    /* 내부 여백 추가 */
+    border-radius: 15px;
+    /* 모서리를 둥글게 */
+    font-size: 1.2rem;
+    /* 글자 크기 */
+    font-weight: bold;
+    /* 글자 굵기 */
+    /* box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2); 그림자 효과 */
+    opacity: 0;
+    /* 초기 상태에서 보이지 않게 설정 */
+    animation: fadeInUp 4s infinite ease-in-out;
+    /* 애니메이션 실행 (3초간 반복) */
+    animation-delay: calc(var(--i) * 4s);
+    /* 개별 영수증마다 딜레이 조정 */
+}
+
+/*
+개별 영수증 애니메이션 딜레이 설정
+*/
+.receipt:nth-child(1) {
+    --i: 0;
+}
+
+/* 첫 번째 영수증은 바로 실행 */
+.receipt:nth-child(2) {
+    --i: 1;
+}
+
+/* 두 번째 영수증은 1초 뒤 실행 */
+.receipt:nth-child(3) {
+    --i: 2;
+}
+
+/* 세 번째 영수증은 2초 뒤 실행 */
+
+/*
+영수증 애니메이션 효과
+*/
+@keyframes fadeInUp {
+    0% {
+        opacity: 0;
+        /* 처음에는 보이지 않음 */
+        transform: translateY(30px);
+        /* 아래에서 시작 */
+    }
+
+    50% {
+        opacity: 1;
+        /* 중간쯤에서 보이기 시작 */
+        transform: translateY(0);
+        /* 원래 위치로 이동 */
+    }
+
+    100% {
+        opacity: 0;
+        /* 다시 사라짐 */
+        transform: translateY(-30px);
+        /* 위로 사라짐 */
+    }
+}

@@ -1,30 +1,40 @@
-// 페이지 내용을 #app-container에 로드하는 함수
-export function loadPage(url) {
-    return fetch(url)
-      .then(response => response.text())
-      .then(html => {
-        document.getElementById('app-container').innerHTML = html;
-      });
+// helpers.js
+import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+import { SUPABASE_URL, SUPABASE_ANON_KEY } from './DBConn.js';
+
+// Supabase 클라이언트 생성
+export const db = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+// 사용자 로그인 관리 함수
+export function getCurrentUser() {
+  return JSON.parse(localStorage.getItem('currentUser'));
+}
+
+export function setCurrentUser(user) {
+  localStorage.setItem('currentUser', JSON.stringify(user));
+}
+
+export function clearCurrentUser() {
+  localStorage.removeItem('currentUser');
+}
+
+// 로그인 확인 및 페이지 이동 처리
+export function checkLogin() {
+  const currentUser = getCurrentUser();
+  if (!currentUser) {
+    alert('로그인이 필요합니다.');
+    window.location.href = '../user/login.html';
   }
-  
-  // Dexie 초기화 및 currentUser 관리
-  import Dexie from 'https://unpkg.com/dexie@latest/dist/dexie.mjs';
-  
-  export const db = new Dexie("HouseholdDB");
-  db.version(1).stores({
-    users: "++id, username, password",
-    ledger: "++id, userId, type, amount, date"
-  });
-  
-  // 사용자 로그인 여부를 관리하기 위한 로컬스토리지 사용
-  export function getCurrentUser() {
-    return JSON.parse(localStorage.getItem('currentUser'));
+  return currentUser;
+}
+
+// 로그아웃 설정
+export function setupLogout() {
+  const logoutBtn = document.getElementById('logoutBtn');
+  if (logoutBtn) {
+    logoutBtn.addEventListener('click', () => {
+      clearCurrentUser();
+      window.location.href = '../user/login.html';
+    });
   }
-  
-  export function setCurrentUser(user) {
-    localStorage.setItem('currentUser', JSON.stringify(user));
-  }
-  
-  export function clearCurrentUser() {
-    localStorage.removeItem('currentUser');
-  }
+}
