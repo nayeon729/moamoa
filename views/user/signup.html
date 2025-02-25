@@ -5,20 +5,21 @@
   <title>가계부 관리 앱 - 회원가입</title>
   <link rel="stylesheet" href="../../css/common.css">
   <link rel="stylesheet" href="./signup.css">
-  <!-- Bulma CSS (옵션) -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
 </head>
 <body>
 <section id="signup-section">
-  <h3>회원가입</h3>
+  <h1>S i g n &nbsp;&nbsp; u p</h1>
   <form id="registerForm">
+    <P>아이디</P>  
     <input type="text" id="reg-username" placeholder="아이디" required>
+    <p>비밀번호</p>
     <input type="password" id="reg-password" placeholder="비밀번호" required>
+    <p>이메일</p>
+    <input type="email" id="reg-email" placeholder="youremail@abc.com"/>
     <button type="submit">회원가입</button>
+      <a href="./login.html" id="login-btn">로그인</a> 
   </form>
-  <p>
-    이미 회원가입 하셨다면, <a href="./login.html">로그인</a> 페이지로 돌아가세요.
-  </p>
+
 </section>
 <script type="module" src="./signup.js"></script>
 </body>
