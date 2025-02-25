@@ -1,0 +1,17 @@
+#account-settings p {
+    text-align: left;
+}
+#set-up {
+    width: 120px;
+    height: auto;
+    margin: 10px;
+}
+#container input[type="text"],
+#container input[type="password"],
+#container input[type="email"] {
+    width: 92%;
+    padding: 10px;
+    margin-bottom: 18px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
