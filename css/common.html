@@ -8,7 +8,10 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
+    <!-- 폰트 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR&display=swap" rel="stylesheet">
     <style>
         body {
             display: flex;
@@ -16,16 +19,16 @@
             align-items: center;
             flex-direction: column;
             height: 100vh;
-            background: white;
-            color: white;
+            background: #CEF2E1;
+            color:black;
             text-align: center;
-            font-family: 'Arial', sans-serif;
+            font-family: "IBM Plex Sans KR", serif;
+            /* font-family: 'Arial', sans-serif; */
         }
 
         /*셀렉트, 선택, 설정과 로그아웃 버튼 공통*/
 
-        .auth-buttons {
-            background: transparent;   
+        .auth-buttons {  
             position:absolute;
             right: 60px;
             top: 25px;
@@ -35,13 +38,14 @@
         }
 
         .auth-buttons a {
-            color: #00aeff;
+            color: #1B8C42;
             padding: 5px 10px;
             height: 32px;
             border-radius: 20px;
             text-decoration: none; 
-            border: 1px solid #00aeff;
+            border: 1px solid #1B8C42;
             margin-top: 2px;
+            background-color: white;
         }
         /*셀렉트*/
 
@@ -50,15 +54,15 @@
             width: 85px;
             height: 30px; /* 높이 맞추기 */
             border-radius: 20px; /* 둥근 테두리 */
-            border: 1px solid #00aeff; /* 테두리 추가 */
+            border: 1px solid #1B8C42; /* 테두리 추가 */
             margin-right: 5px; /* 여유 공간 추가 */
-            color:#00aeff;
+            color:#1B8C42;
         }   
        
         /*선택버튼*/
 
         .choice {
-            background: #00aeff;
+            background: #1B8C42;
             color: white;
             border-radius: 20px;
             border: 1px solid;
@@ -68,7 +72,7 @@
         }
 
         .choice:hover {
-            background-color: #00aeff;
+            background-color: #38734D;
             color: white;
         }
 
@@ -100,10 +104,12 @@
             width: 1000px;
             min-width: 500px; /* 최소 너비 설정 */
             height: 40px;
-            background-color: #00aeff;
+            background-color: #45BF86;
             border-radius: 25px;
-            border: 2px solid white;
+            /* border: 2px solid white; */
             margin-top: 20px;
+            display: inline-flex;
+            padding: 0;
 
         }
 
@@ -120,6 +126,11 @@
         .navbar a:hover {
             font-size: 17px; /* 호버 시 글자 크기 */
         }
+        .navbar a:active{
+            background-color: #38734D;
+        }
+     
+
     </style>
 </head>
 <body>
