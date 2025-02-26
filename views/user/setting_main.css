@@ -1,0 +1,11 @@
+table {
+    table-layout: fixed;
+    width: 100%;
+    border-collapse: collapse;
+}
+th, td {
+    width: 50%;
+    height: 50px; /* 셀 높이 고정 */
+    border: 1px solid black;
+    text-align: center;
+}
