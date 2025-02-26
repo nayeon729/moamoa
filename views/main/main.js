@@ -7,6 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const currentUser = checkLogin();
   setupLogout();
   setupSelectGroup(currentUser);
+  setupnickName(currentUser);
   setupLedgerForm(currentUser);
   initializeCalendar(currentUser);
   loadPrices();
@@ -56,6 +57,24 @@ async function setupSelectGroup(currentUser) {
   }
 
   loadLedger(currentUser);
+}
+
+async function setupnickName(currentUser) {
+  const { data: user, error } = await db
+    .from('user')
+    .select('nickname')
+    .eq('user_id', currentUser)
+    .single();
+
+  if (error) {
+    console.error('사용자 정보 조회 오류:', error);
+    return;
+  }
+
+  const nicknameEl = document.getElementById('nicknameSpan');
+  if (nicknameEl) {
+    nicknameEl.textContent = user.nickname + ' 님';
+  }
 }
 
 function setupLedgerForm(currentUser) {
