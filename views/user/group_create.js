@@ -44,8 +44,10 @@ document.addEventListener('DOMContentLoaded', () => {
           return;
         }
 
-        alert('그룹이 성공적으로 생성되었습니다!');
-        // 생성 후 원하는 추가 작업을 수행합니다.
+        alert('그룹이 성공적으로 생성되었습니다! 그룹원 관리 페이지로 이동됩니다.');
+
+        window.location.href = 'group_member.html';
+
       } catch (err) {
         console.error('Unexpected Error:', err);
         alert('예상치 못한 에러가 발생했습니다.');
