@@ -17,9 +17,13 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         $(document).ready(function() {
-            $("#top-section").load("../common/common_setting.html");
+          // 공통 헤더 로드 후에 콜백으로 common-nav.js를 실행
+          $("#top-section").load("../common/common_setting.html", function() {
+            // 헤더 로드 후에 common-nav.js 실행
+            $.getScript("../common/common-nav.js");
+          });
         });
-    </script>
+    </script>    
     
     <div id="container">    
     </div>
