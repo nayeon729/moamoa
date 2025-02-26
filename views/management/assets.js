@@ -23,11 +23,11 @@ async function dbbring(){
         let row = `
             <tr>
                 <td>${item.description}</td>
-                <td>${item.transaction_date}</td>
-                <td>${item.transaction_date}</td>
+                <td>${item.group_id}</td>
+                <td>${item.purchase_date}</td>
                 <td>${item.usage_period}</td>
                 <td>${item.warranty_expiry}</td>
-                <td>${item.amount}</td>
+                <td>${item.last_cleaned_date}</td>
                 <td><button class="delete-btn" data-id="${item.electronics_id}">삭제</button></td>
             </tr>
         `;
