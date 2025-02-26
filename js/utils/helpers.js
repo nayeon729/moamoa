@@ -32,7 +32,8 @@ export function checkLogin() {
 export function setupLogout() {
   const logoutBtn = document.getElementById('logoutBtn');
   if (logoutBtn) {
-    logoutBtn.addEventListener('click', () => {
+    logoutBtn.addEventListener('click', (event) => {
+      event.preventDefault(); // 기본 동작(링크 이동) 막기
       clearCurrentUser();
       window.location.href = '../user/login.html';
     });
