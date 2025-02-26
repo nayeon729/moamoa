@@ -13,22 +13,16 @@
 <body>
 <!-- 공통 헤더 (메인 페이지 전용) -->
 <header id="common-header">
-  <nav>
-    <a href="../user/profile_settings.html">설정</a>
-    <a href="main.html">메인</a>
-    <label>
-      <select id="groupSelect">
-      </select>
-    </label>
-    <button id="logoutBtn">로그아웃</button>
-  </nav>
-  <nav>
-    <a href="main.html">로고</a>
-    <a href="../management/fridge.html">냉장고 유통기한 관리</a>
-    <a href="../management/subscriptions.html">구독 관리</a>
-    <a href="../management/assets.html">전자제품 관리</a>
-  </nav>
+  <!-- Common header will be loaded here -->
 </header>
+
+<!-- 제이쿼리 방식 -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+  $(document).ready(function() {
+    $("#common-header").load("../common/common.html");
+  });
+</script>
 
 <!-- 메인 콘텐츠 영역 -->
 <section id="main-section">
