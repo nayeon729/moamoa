@@ -21,7 +21,45 @@
         });
     </script>
     
-    <div id="container">    
+    <div id="container">   
+        
+    <table border="1">
+        <tr>
+            <th>그룹명</th>
+            <th>메인</th>
+        </tr>
+        <tr>
+            <td></td>
+            <td><input type="checkbox" name="chk" onclick="onlyOne(this)"></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td><input type="checkbox" name="chk" onclick="onlyOne(this)"></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td><input type="checkbox" name="chk" onclick="onlyOne(this)"></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td><input type="checkbox" name="chk" onclick="onlyOne(this)"></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td><input type="checkbox" name="chk" onclick="onlyOne(this)"></td>
+        </tr>
+    </table>
+    <button>저장</button>
+    <script>
+        function onlyOne(checkbox) {
+          const checkboxes = document.getElementsByName('chk');
+          checkboxes.forEach((item) => {
+            if (item !== checkbox) {
+              item.checked = false;
+            }
+          });
+        }
+        </script>
     </div>
 </body>
 </html>
