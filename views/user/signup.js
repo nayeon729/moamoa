@@ -50,7 +50,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       const { groupdata, error: groupinsertError } = await db
           .from('group')
-          .insert([{ group_id: userid, name: userid, leader_id: userid }]);
+          .insert([{ group_id: userid, name: nickname, leader_id: userid }]);
           
       const { usergroupdata, error: usergroupinsertError } = await db
           .from('usergroup')
