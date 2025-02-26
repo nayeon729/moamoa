@@ -15,6 +15,12 @@ $(document).ready(function(){
       $('#navbar a[href*="group_member.html"]').addClass('nav-active');
     } else if(page === "group_withdraw.html") {
       $('#navbar a[href*="group_withdraw.html"]').addClass('nav-active');
+    } else if(page === "setting.html") {
+      $('#navbar a[href*="setting.html"]').addClass('nav-active');
+    } else if(page === "setting_main.html") {
+      $('#navbar a[href*="setting_main.html"]').addClass('nav-active');
+    } else if(page === "setting_withdraw.html") {
+      $('#navbar a[href*="setting_withdraw.html"]').addClass('nav-active');
     }
   });
   

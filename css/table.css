@@ -1,0 +1,20 @@
+table{
+    margin: 10px;
+    border: 0.5em soild #38734D;
+    border-radius: 10px;
+    background-color: #38734D;
+}
+th{
+    padding:10px 20px 10px 20px;
+    color: white;
+
+}
+td{
+    color: #244a31;
+    font-weight: 500;
+    background-color: white;
+    /* 너비 변경 */
+    width: 200px;
+
+    padding: 10px 20px 10px 20px;
+}

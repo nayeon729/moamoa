@@ -23,19 +23,5 @@
       <a href="../user/group_withdraw.html" class="nav">그룹 탈퇴</a>
     </div>
   </div>
-
-  <script>
-    $(document).ready(function(){
-      // 현재 URL을 가져옴
-      var url = window.location.href;
-      
-      // 모든 탭에서 active 클래스를 제거한 후
-      $("#tabs a").removeClass("nav-active");
-      
-        if(url.indexOf("setting.html") !== -1){
-            $("#tabs a[href*='setting.html']").addClass("nav-active");
-        }
-    });
-  </script>
 </body>
 </html>
