@@ -1,0 +1,19 @@
+#save_button{
+    border-radius: 10px;
+    border:1px solid #38734D;
+    padding: 20 25 20 25;
+}
+
+#delate_button{
+    content: "";
+    display: inline-block;
+    width:20px;
+    height:20px;
+    background-image: url(/garbage.png);
+    background-size: 100%;
+    background-repeat: no-repeat;
+    background-position:  center;
+    vertical-align: top;
+    margin-top: 9px;
+    border: 0;
+}
