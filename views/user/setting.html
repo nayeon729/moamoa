@@ -8,30 +8,20 @@
     <link rel="stylesheet" href="./setting.css">
 </head>
 <body>
-    <div id="tabs">
-        <a href="#" id="tab">그룹 관리</a>
-        <a href="#" id="tab-active">계정 설정</a>
+    <!-- 공통 헤더 (메인 페이지 전용) -->
+    <header id="top-section">
+    <!-- Common header will be loaded here -->
+    </header>
+    
+    <!-- 제이쿼리 방식 -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $("#top-section").load("../common/common_setting.html");
+        });
+    </script>
+    
+    <div id="container">    
     </div>
-    <div>
-        <div id="navbar">
-            <a href="#" id="nav-active">계정 설정</a>
-            <a href="#" id="nav">메인가계부</a>
-            <a href="#" id="nav">회원 탈퇴 </a>
-        </div>
-    </div>
-<div id="container">    
-    <div id="account-settings">
-        <P>닉네임</P>
-        <input type="text" />
-        <p>비밀번호 변경</p>
-        <input type="password" />
-        <p>이메일 변경</p>
-        <input type="email" placeholder="youremail@abc.com"/>
-        <button>저장</button>
-    </div>
-
-        <a href="#" id="main">메인 화면</a>
-</div>  
-    <script type="module" src="./setting.js"></script>
 </body>
 </html>

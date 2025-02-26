@@ -8,43 +8,20 @@
     <link rel="stylesheet" href="./setting_main.css">
 </head>
 <body>
-    <div id="tabs">
-        <a href="#" id="tab">그룹 관리</a>
-        <a href="#" id="tab-active">계정 설정</a>
+    <!-- 공통 헤더 (메인 페이지 전용) -->
+    <header id="top-section">
+    <!-- Common header will be loaded here -->
+    </header>
+    
+    <!-- 제이쿼리 방식 -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $("#top-section").load("../common/common_setting.html");
+        });
+    </script>
+    
+    <div id="container">    
     </div>
-    <div>
-        <div id="navbar">
-            <a href="#" id="nav">계정 설정</a>
-            <a href="#" id="nav-active">메인가계부</a>
-            <a href="#" id="nav">회원 탈퇴 </a>
-        </div>
-    </div>
-<div id="container">   
-               
-        <table>
-            <tr>
-                <th>그룹명</th>
-                <th>메인</th>
-            </tr>
-            <tr>
-                <td>그룹1</td>
-                <td><input type="radio" name="main"></td>
-            </tr>
-            <tr>
-                <td>그룹2</td>
-                <td><input type="radio" name="main"></td>
-            </tr>
-            <tr>
-                <td>그룹3</td>
-                <td><input type="radio" name="main"></td>
-            </tr>
-            <tr>
-                <td>그룹4</td>
-                <td><input type="radio" name="main"></td>
-            </tr>
-        </table>
-            <button>저장</button>
-
-        <a href="#" id="main">메인 화면</a>
 </body>
 </html>

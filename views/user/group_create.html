@@ -8,21 +8,34 @@
     <link rel="stylesheet" href="./group_create.css">
 </head>
 <body>
-    <div id="tabs">
-        <a href="#" id="tab-active">그룹 관리</a>
-        <a href="#" id="tab">계정 설정</a>
-    </div>
-    <div>
-        <div id="navbar">
-            <a href="#" id="nav-active">그룹 생성</a>
-            <a href="#" id="nav">그룹장 지정</a>
-            <a href="#" id="nav">그룹원 관리</a>
-            <a href="#" id="nav">그룹 탈퇴</a>
-        </div>
-    </div>
-<div id="container">    
-            <button>버튼</button>
 
-        <a href="#" id="main">메인 화면</a>
+    <!-- 공통 헤더 (메인 페이지 전용) -->
+    <header id="top-section">
+    <!-- Common header will be loaded here -->
+    </header>
+  
+    <!-- 제이쿼리 방식 -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+          // 공통 헤더 로드 후에 콜백으로 common-nav.js를 실행
+          $("#top-section").load("../common/common_group.html", function() {
+            // common_group.html 내부에 #navbar가 있다고 가정합니다.
+            // 헤더 로드 후에 common-nav.js 실행
+            $.getScript("../common/common-nav.js");
+          });
+        });
+    </script>
+
+<div id="container">    
+    <div id="group-create">
+        <h1>그룹 생성</h1>
+        <form action="">
+            <input type="text" id="group-name" placeholder="그룹 이름" required>
+            <input type="text" id="group-description" placeholder="그룹 설명" required>
+            <button type="submit">생성</button>
+        </form>
+    </div>
+</div>
 </body>
 </html>
