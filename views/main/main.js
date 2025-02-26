@@ -6,11 +6,57 @@ import dayGridPlugin from 'https://cdn.skypack.dev/@fullcalendar/daygrid';
 document.addEventListener('DOMContentLoaded', () => {
   const currentUser = checkLogin();
   setupLogout();
+  setupSelectGroup(currentUser);
   setupLedgerForm(currentUser);
   initializeCalendar(currentUser);
-  loadLedger(currentUser.id);
   loadPrices();
 });
+
+async function setupSelectGroup(currentUser) {
+
+  // ✅ 1. usergroup 테이블에서 user_id로 group_id 목록 조회
+  const { data: userGroups, error: userGroupError } = await db
+    .from('usergroup')
+    .select('group_id')
+    .eq('user_id', currentUser);
+
+  if (!userGroups.length) return; // 그룹이 없으면 종료
+
+  const groupIds = userGroups.map(group => group.group_id);
+
+  console.log('그룹 아이디 목록:', groupIds);
+
+  // ✅ 2. group 테이블에서 group_id로 name 조회
+  const { data: groups, error: groupError } = await db
+    .from('group')
+    .select('group_id, name')
+    .in('group_id', groupIds); // 여러 조건에 대해 .in() 사용
+
+  if (groupError) throw groupError;
+
+  // ✅ 3. 조회된 그룹들을 select 옵션으로 추가
+  groups.forEach(group => {
+    const option = document.createElement('option');
+    option.value = group.group_id;
+    option.textContent = group.name;
+    groupSelect.appendChild(option);
+  });
+
+  // ✅ 4. userledger 테이블에서 main_ledger_group_id 가져와 선택 설정
+  const { data: userLedger, error: userLedgerError } = await db
+    .from('userledger')
+    .select('main_ledger_group_id')
+    .eq('user_id', currentUser)
+    .single(); // 단일 레코드 조회
+
+  if (userLedgerError) throw userLedgerError;
+
+  if (userLedger?.main_ledger_group_id) {
+    groupSelect.value = userLedger.main_ledger_group_id;
+  }
+
+  loadLedger(currentUser);
+}
 
 function setupLedgerForm(currentUser) {
   const ledgerForm = document.getElementById('ledgerForm');
@@ -20,10 +66,19 @@ function setupLedgerForm(currentUser) {
       const amount = parseInt(document.getElementById('amount').value);
       const type = document.getElementById('type').value;
       const date = new Date().toISOString();
+      const groupSelect = document.getElementById('groupSelect');
+
+      console.log(groupSelect.value, currentUser, amount, type, date);
 
       const { data, error } = await db
           .from('ledger')
-          .insert([{ user_id: currentUser.id, type, amount, date }]);
+          .insert([{ 
+            group_id: groupSelect.value, 
+            user_id: currentUser, 
+            transaction_type: type, 
+            transaction_date: date,
+            category: '', 
+            amount: amount }]);
 
       if (error) {
         alert('가계부 등록 중 오류: ' + error.message);
@@ -32,7 +87,7 @@ function setupLedgerForm(currentUser) {
 
       alert("내역이 등록되었습니다.");
       ledgerForm.reset();
-      loadLedger(currentUser.id);
+      loadLedger(currentUser);
     });
   }
 }
@@ -50,15 +105,14 @@ function initializeCalendar(currentUser) {
         right: 'dayGridMonth,timeGridWeek,timeGridDay'
       },
       selectable: true,
-      dateClick(info) {
-        alert(`선택한 날짜: ${info.dateStr}`);
-      },
       events: async (fetchInfo, successCallback, failureCallback) => {
         try {
+          const groupSelect = document.getElementById('groupSelect');
           const { data: entries, error } = await db
               .from('ledger')
               .select('*')
-              .eq('user_id', currentUser.id);
+              .eq('user_id', currentUser)
+              .eq('group_id', groupSelect.value);
 
           if (error) {
             console.error('이벤트 불러오기 오류:', error);
@@ -89,7 +143,8 @@ async function loadLedger(userId) {
         .from('ledger')
         .select('*')
         .eq('user_id', userId)
-        .order('date', { ascending: false });
+        .eq('group_id', groupSelect.value)
+        .order('transaction_type', { ascending: false });
 
     if (error) {
       console.error('가계부 내역 조회 오류:', error);
