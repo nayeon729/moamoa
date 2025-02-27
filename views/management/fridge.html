@@ -6,6 +6,7 @@
     <title>Document</title>
     <link rel="stylesheet" href="../../css/common.css">
     <link rel="stylesheet" href="../management/fridge.css">
+    <link rel="stylesheet" href="../../css/table.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
@@ -15,11 +16,11 @@
     </header>
     
     <!-- 제이쿼리 방식 -->
-    <script>
+    <!-- <script>
         $(document).ready(function() {
             $("#top-section").load("../common/common.html");
         });
-    </script>
+    </script> -->
 
 <section id="bottom-section">
     <table border="1" id="itemTable">
@@ -28,6 +29,14 @@
                 <th>식품명</th>
                 <th>구입날짜</th>
                 <th>유통기한</th>
+            </tr>
+        </thead>
+    </table>
+    <table border="1" id="remaingTable">
+        <thead>
+            <tr>
+                <th>유통기한 임박 식품</th>
+                <th>남은 일수</th>
             </tr>
         </thead>
     </table>

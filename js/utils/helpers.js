@@ -46,6 +46,8 @@ export async function loadHTML() {
   const response = await fetch('../common/common.html');
   const html = await response.text();
   document.getElementById('top-section').innerHTML = html;
+
+
 }
 
 export async function setupSelectGroup(currentUser) {
@@ -142,4 +144,5 @@ export async function setupnickName(currentUser) {
   if (nicknameEl) {
     nicknameEl.textContent = user.nickname + ' 님';
   }
+
 }

@@ -1,7 +1,10 @@
-import { db } from '../../js/utils/helpers.js';
+import { db,checkLogin, setupLogout, loadHTML } from '../../js/utils/helpers.js';
 
-document.addEventListener('DOMContentLoaded', () => {
- dbbring();
+document.addEventListener('DOMContentLoaded', async() => {
+    const currentUser = checkLogin();
+    await loadHTML();
+    setupLogout();
+    dbbring();
 });
 
 
