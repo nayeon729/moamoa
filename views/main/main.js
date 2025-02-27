@@ -23,6 +23,7 @@ function setupLedgerForm(currentUser) {
       const type = document.getElementById('type').value;
       const date = new Date().toISOString();
       const groupSelect = document.getElementById('groupSelect');
+      const category = document.getElementById('category').value;
 
       console.log('등록 정보:', groupSelect.value, currentUser, amount, type, date);
 
@@ -33,7 +34,7 @@ function setupLedgerForm(currentUser) {
             user_id: currentUser, 
             transaction_type: type, 
             transaction_date: date,
-            category: '', 
+            category: category,
             amount: amount }]);
 
       if (error) {
@@ -42,8 +43,7 @@ function setupLedgerForm(currentUser) {
       }
 
       alert("내역이 등록되었습니다.");
-      ledgerForm.reset();
-      loadLedger(currentUser);
+      window.location.reload();
     });
   }
 }
@@ -75,11 +75,42 @@ function initializeCalendar(currentUser) {
             return;
           }
 
-          const events = entries.map(entry => ({
-            title: `${entry.transaction_type === 'income' ? '수입' : '지출'}: ${entry.amount}원`,
-            start: entry.transaction_date,
-            allDay: true
-          }));
+
+          // 날짜별로 항목을 그룹화 (날짜만 추출)
+          const groupedEntries = {};
+          entries.forEach(entry => {
+            const date = entry.transaction_date.split('T')[0];
+            if (!groupedEntries[date]) {
+              groupedEntries[date] = { income: 0, expense: 0 };
+            }
+            if (entry.transaction_type === 'income') {
+              groupedEntries[date].income += entry.amount;
+            } else if (entry.transaction_type === 'expense') {
+              groupedEntries[date].expense += entry.amount;
+            }
+          });
+
+          // 각 날짜에 대해 수입, 지출을 별도의 이벤트로 생성
+          const events = [];
+          Object.keys(groupedEntries).forEach(date => {
+            const { income, expense } = groupedEntries[date];
+            if (income > 0) {
+              events.push({
+                title: `수입: ${income}원`,
+                start: date,
+                allDay: true,
+                color: 'green' // 수입 이벤트에 적용할 색상 (선택사항)
+              });
+            }
+            if (expense > 0) {
+              events.push({
+                title: `지출: ${expense}원`,
+                start: date,
+                allDay: true,
+                color: 'red' // 지출 이벤트에 적용할 색상 (선택사항)
+              });
+            }
+          });
 
           successCallback(events);
         } catch (err) {
