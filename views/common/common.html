@@ -12,17 +12,18 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR&display=swap" rel="stylesheet">
-    <style>
-
-    </style>
+    <link rel="stylesheet" href="../../css/common.css">
+    <link rel="stylesheet" href="./month_price.css">
+    
 </head>
 <body>
 <!-- 공통 헤더 (메인 페이지 전용) -->   
 <header id="top-section">   
     <div id="auth-buttons">
+        <span id="nicknameSpan"></span>
+        <select id="groupSelect" name="options">
+        </select>
         <form>
-            <select id="groupSelect" name="options">
-            </select>
             <button type="submit" id="new_info">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
                     <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2z"/>

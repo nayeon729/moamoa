@@ -1,18 +1,26 @@
 // main.js
-import { db, checkLogin, setupLogout } from '../../js/utils/helpers.js';
+import { db, checkLogin, setupLogout,loadHTML } from '../../js/utils/helpers.js';
 import { Calendar } from 'https://cdn.skypack.dev/@fullcalendar/core';
 import dayGridPlugin from 'https://cdn.skypack.dev/@fullcalendar/daygrid';
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
   const currentUser = checkLogin();
+  await loadHTML();
   setupLogout();
-  setupSelectGroup(currentUser);
+  await setupSelectGroup(currentUser);
+  await setupnickName(currentUser);
   setupLedgerForm(currentUser);
   initializeCalendar(currentUser);
   loadPrices();
 });
 
 async function setupSelectGroup(currentUser) {
+  // groupSelect 요소를 명시적으로 가져옴
+  const groupSelect = document.getElementById('groupSelect');
+  if (!groupSelect) {
+    console.error('groupSelect 요소가 존재하지 않습니다.');
+    return;
+  }
 
   // ✅ 1. usergroup 테이블에서 user_id로 group_id 목록 조회
   const { data: userGroups, error: userGroupError } = await db
@@ -20,7 +28,11 @@ async function setupSelectGroup(currentUser) {
     .select('group_id')
     .eq('user_id', currentUser);
 
-  if (!userGroups.length) return; // 그룹이 없으면 종료
+  if (userGroupError) {
+    console.error('usergroup 조회 오류:', userGroupError);
+    return;
+  }
+  if (!userGroups || !userGroups.length) return; // 그룹이 없으면 종료
 
   const groupIds = userGroups.map(group => group.group_id);
 
@@ -32,7 +44,10 @@ async function setupSelectGroup(currentUser) {
     .select('group_id, name')
     .in('group_id', groupIds); // 여러 조건에 대해 .in() 사용
 
-  if (groupError) throw groupError;
+  if (groupError) {
+    console.error('group 테이블 조회 오류:', groupError);
+    throw groupError;
+  }
 
   // ✅ 3. 조회된 그룹들을 select 옵션으로 추가
   groups.forEach(group => {
@@ -44,18 +59,46 @@ async function setupSelectGroup(currentUser) {
 
   // ✅ 4. userledger 테이블에서 main_ledger_group_id 가져와 선택 설정
   const { data: userLedger, error: userLedgerError } = await db
-    .from('userledger')
-    .select('main_ledger_group_id')
-    .eq('user_id', currentUser)
-    .single(); // 단일 레코드 조회
+      .from('userledger')
+      .select('main_ledger_group_id')
+      .eq('user_id', currentUser)
+      .single();
 
-  if (userLedgerError) throw userLedgerError;
+  if (userLedgerError) {
+    console.error('userledger 조회 오류:', userLedgerError);
+    throw userLedgerError;
+  }
 
   if (userLedger?.main_ledger_group_id) {
     groupSelect.value = userLedger.main_ledger_group_id;
   }
 
+  // 선택 변경 시 가계부 내역 새로 조회
+  groupSelect.addEventListener('change', () => {
+    loadLedger(currentUser);
+    initializeCalendar(currentUser);
+  });
+
+  // 초기 로드 시 가계부 내역 조회
   loadLedger(currentUser);
+}
+
+async function setupnickName(currentUser) {
+  const { data: user, error } = await db
+    .from('user')
+    .select('nickname')
+    .eq('user_id', currentUser)
+    .single();
+
+  if (error) {
+    console.error('사용자 정보 조회 오류:', error);
+    return;
+  }
+
+  const nicknameEl = document.getElementById('nicknameSpan');
+  if (nicknameEl) {
+    nicknameEl.textContent = user.nickname + ' 님';
+  }
 }
 
 function setupLedgerForm(currentUser) {
@@ -68,7 +111,7 @@ function setupLedgerForm(currentUser) {
       const date = new Date().toISOString();
       const groupSelect = document.getElementById('groupSelect');
 
-      console.log(groupSelect.value, currentUser, amount, type, date);
+      console.log('등록 정보:', groupSelect.value, currentUser, amount, type, date);
 
       const { data, error } = await db
           .from('ledger')
@@ -121,8 +164,8 @@ function initializeCalendar(currentUser) {
           }
 
           const events = entries.map(entry => ({
-            title: `${entry.type === 'income' ? '수입' : '지출'}: ${entry.amount}원`,
-            start: entry.date,
+            title: `${entry.transaction_type === 'income' ? '수입' : '지출'}: ${entry.amount}원`,
+            start: entry.transaction_date,
             allDay: true
           }));
 
@@ -139,6 +182,7 @@ function initializeCalendar(currentUser) {
 
 async function loadLedger(userId) {
   try {
+    const groupSelect = document.getElementById('groupSelect');
     const { data: entries, error } = await db
         .from('ledger')
         .select('*')
@@ -156,11 +200,4 @@ async function loadLedger(userId) {
   } catch (err) {
     console.error('예기치 못한 오류:', err);
   }
-}
-
-function loadPrices() {
-  const agriElem = document.getElementById('agriPrices');
-  const fuelElem = document.getElementById('fuelPrices');
-  if (agriElem) agriElem.textContent = "배추: 3,000원, 감자: 2,500원";
-  if (fuelElem) fuelElem.textContent = "휘발유: 1,700원/L, 경유: 1,600원/L";
 }

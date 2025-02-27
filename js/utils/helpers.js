@@ -32,9 +32,17 @@ export function checkLogin() {
 export function setupLogout() {
   const logoutBtn = document.getElementById('logoutBtn');
   if (logoutBtn) {
-    logoutBtn.addEventListener('click', () => {
+    logoutBtn.addEventListener('click', (event) => {
+      event.preventDefault(); // 기본 동작(링크 이동) 막기
       clearCurrentUser();
       window.location.href = '../user/login.html';
     });
   }
+}
+
+// 공통 헤더 로드 함수
+export async function loadHTML() {
+  const response = await fetch('../common/common.html');
+  const html = await response.text();
+  document.getElementById('top-section').innerHTML = html;
 }
