@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../../css/common.css">
+    <link rel="stylesheet" href="../lookup/history.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <!-- 공통 헤더 (메인 페이지 전용) -->
+    <header id="top-section">
+        <!-- Common header will be loaded here -->
+    </header>
+    
+    <!-- 제이쿼리 방식 -->
+    <script>
+        $(document).ready(function() {
+            $("#top-section").load("../common/common.html");
+        });
+    </script>
+    
+    <section id="bottom-section">
+        <div id="itemTable-container">
+        <table border="1" id="itemTable">
+            <thead>
+            <tr>
+                <th>그룹원</th>
+                <th>수입/지출</th>
+                <th>날짜</th>
+                <th>내용</th>
+                <th>금액</th>
+            </tr>
+            </thead>
+        </table>
+        </div>
+
+    </section> 
+    <script type="module" src="./history.js"></script>   
+</body>
+</html>
