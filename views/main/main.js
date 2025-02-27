@@ -4,8 +4,8 @@ import { Calendar } from 'https://cdn.skypack.dev/@fullcalendar/core';
 import dayGridPlugin from 'https://cdn.skypack.dev/@fullcalendar/daygrid';
 
 document.addEventListener('DOMContentLoaded', async () => {
-  await loadHTML();
   const currentUser = checkLogin();
+  await loadHTML();
   setupLogout();
   await setupSelectGroup(currentUser);
   await setupnickName(currentUser);
