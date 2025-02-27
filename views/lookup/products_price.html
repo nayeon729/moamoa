@@ -20,12 +20,17 @@
         }
     </style>
     <script>
+        let apiKey = 'bec2b75f-ec08-406a-8708-d08f086a9afa'; // 여기에 API 키를 입력하세요
+        // 오늘 날짜 가져오기 (YYYY-MM-DD 형식)
+        let today = new Date();
+        let year = today.getFullYear();
+        let month = (today.getMonth() + 1).toString().padStart(2, '0'); // 월을 두 자리로 포맷
+        let day = (today.getDate()-1).toString().padStart(2, '0'); // 일을 두 자리로 포맷
+        let date = `${year}-${month}-${day}`;
         $(document).ready(function() {
-            let apiKey = 'bec2b75f-ec08-406a-8708-d08f086a9afa'; // 여기에 API 키를 입력하세요
-            
-            const targetApi1 = `https://www.kamis.or.kr/service/price/xml.do?action=dailyPriceByCategoryList&p_product_cls_code=01&p_regday=2025-02-25&p_convert_kg_yn=N&p_item_category_code=400&p_cert_key=111&p_cert_id=222&p_returntype=json&serviceKey=${apiKey}`;
-            const targetApi2 = `https://www.kamis.or.kr/service/price/xml.do?action=dailyPriceByCategoryList&p_product_cls_code=01&p_regday=2025-02-25&p_convert_kg_yn=N&p_item_category_code=100&p_cert_key=111&p_cert_id=222&p_returntype=json&serviceKey=${apiKey}`;
-            const targetApi3 = `https://www.kamis.or.kr/service/price/xml.do?action=dailyPriceByCategoryList&p_product_cls_code=01&p_regday=2025-02-25&p_convert_kg_yn=N&p_item_category_code=200&p_cert_key=111&p_cert_id=222&p_returntype=json&serviceKey=${apiKey}`;
+            const targetApi1 = `https://www.kamis.or.kr/service/price/xml.do?action=dailyPriceByCategoryList&p_product_cls_code=01&p_regday=${date}&p_convert_kg_yn=N&p_item_category_code=400&p_cert_key=111&p_cert_id=222&p_returntype=json&serviceKey=${apiKey}`;
+            const targetApi2 = `https://www.kamis.or.kr/service/price/xml.do?action=dailyPriceByCategoryList&p_product_cls_code=01&p_regday=${date}&p_convert_kg_yn=N&p_item_category_code=100&p_cert_key=111&p_cert_id=222&p_returntype=json&serviceKey=${apiKey}`;
+            const targetApi3 = `https://www.kamis.or.kr/service/price/xml.do?action=dailyPriceByCategoryList&p_product_cls_code=01&p_regday=${date}&p_convert_kg_yn=N&p_item_category_code=200&p_cert_key=111&p_cert_id=222&p_returntype=json&serviceKey=${apiKey}`;
             const proxyUrl = `https://corsproxy.io/?`;
 
             const targetItems1 = [
@@ -167,8 +172,7 @@
             });
         });
         $(document).ready(function() {
-            let apiKey = 'bec2b75f-ec08-406a-8708-d08f086a9afa'; // 여기에 API 키를 입력하세요
-            const targetApi = `https://www.kamis.or.kr/service/price/xml.do?action=dailyPriceByCategoryList&p_product_cls_code=01&p_regday=2025-02-25&p_convert_kg_yn=N&p_item_category_code=600&p_cert_key=111&p_cert_id=222&p_returntype=json&serviceKey=${apiKey}`;
+            const targetApi = `https://www.kamis.or.kr/service/price/xml.do?action=dailyPriceByCategoryList&p_product_cls_code=01&p_regday=${date}&p_convert_kg_yn=N&p_item_category_code=600&p_cert_key=111&p_cert_id=222&p_returntype=json&serviceKey=${apiKey}`;
             const proxyUrl = `https://corsproxy.io/?${encodeURIComponent(targetApi)}`;
 
             const targetItems = [
@@ -223,8 +227,7 @@
             });
         });
         $(document).ready(function() {
-            let apiKey = 'bec2b75f-ec08-406a-8708-d08f086a9afa'; // 여기에 API 키를 입력하세요
-            const targetApi = `https://www.kamis.or.kr/service/price/xml.do?action=dailyPriceByCategoryList&p_product_cls_code=01&p_regday=2025-02-25&p_convert_kg_yn=N&p_item_category_code=500&p_cert_key=111&p_cert_id=222&p_returntype=json&serviceKey=${apiKey}`;
+            const targetApi = `https://www.kamis.or.kr/service/price/xml.do?action=dailyPriceByCategoryList&p_product_cls_code=01&p_regday=${date}&p_convert_kg_yn=N&p_item_category_code=500&p_cert_key=111&p_cert_id=222&p_returntype=json&serviceKey=${apiKey}`;
             const proxyUrl = `https://corsproxy.io/?${encodeURIComponent(targetApi)}`;
 
             const targetItems = [
