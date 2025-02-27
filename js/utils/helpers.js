@@ -29,6 +29,10 @@ export function checkLogin() {
   return currentUser;
 }
 
+export function getCurrentGroup() {
+    return localStorage.getItem('selectedGroup');
+}
+
 // 로그아웃 설정
 export function setupLogout() {
   const logoutBtn = document.getElementById('logoutBtn');
