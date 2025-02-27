@@ -1,12 +1,14 @@
-import { db, checkLogin, setupLogout, loadHTML} from '../../js/utils/helpers.js';
-
+import { db, checkLogin, setupLogout, loadHTML, setupSelectGroup, setupnickName } from '../../js/utils/helpers.js';
 
 document.addEventListener('DOMContentLoaded', async() => {
- const currentUser = checkLogin();
- await loadHTML();
- setupLogout();
- dbbring();
+    const currentUser = checkLogin();
+    await loadHTML();
+    setupLogout();
+    await setupSelectGroup(currentUser);
+    await setupnickName(currentUser);
+    dbbring();
 });
+
 
 
 
