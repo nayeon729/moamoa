@@ -112,3 +112,24 @@ body {
         font-weight:600;
         text-decoration: none;
     }
+
+#back-to-main {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    padding: 8px 16px;
+    background-color: #1B8C42;
+    color: white;
+    border: 1px solid white;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+#back-to-main:hover {
+    background-color: white;
+    color: #38734D;
+    font-size: 15px;
+}
