@@ -1,34 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="../../css/group_management.css">
-    <link rel="stylesheet" href="./group_withdraw.css">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>그룹 탈퇴</title>
+    <link rel="stylesheet" href="../../css/group_management.css" />
+    <link rel="stylesheet" href="./group_withdraw.css" />
 </head>
 <body>
-    <!-- 공통 헤더 (메인 페이지 전용) -->
-    <header id="top-section">
+<!-- 공통 헤더 (메인 페이지 전용) -->
+<header id="top-section">
     <!-- Common header will be loaded here -->
-    </header>
-    
-    <!-- 제이쿼리 방식 -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>
-        $(document).ready(function() {
-          // 공통 헤더 로드 후에 콜백으로 common-nav.js를 실행
-          $("#top-section").load("../common/common_group.html", function() {
-            // common_group.html 내부에 #navbar가 있다고 가정합니다.
-            // 헤더 로드 후에 common-nav.js 실행
+</header>
+
+<!-- 제이쿼리 방식 -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#top-section").load("../common/common_group.html", function () {
             $.getScript("../common/common-nav.js");
-          });
         });
-    </script>
-    
-    <div id="container">    
+    });
+</script>
+
+<div id="container">
+    <!-- 가입한 그룹 목록을 보여주는 테이블 -->
+    <div class="table-wrapper">
+        <table id="group-table" border="1">
+            <thead>
+            <tr>
+                <th>가입된 그룹 목록</th>
+            </tr>
+            </thead>
+            <tbody>
+            <!-- JS에서 그룹 목록 렌더링 -->
+            </tbody>
+        </table>
+        <!-- 선택된 그룹 표시 -->
+        <div id="selected-group-display" style="margin-top: 10px; text-align: center;">
+            선택된 그룹: <span id="selected-group-name">없음</span>
+        </div>
+        <!-- 그룹 탈퇴 버튼 -->
+        <div id="group-withdraw-wrapper" style="margin-top: 10px; text-align: center;">
+            <button id="withdraw-group-btn">그룹 탈퇴</button>
+        </div>
     </div>
-    
-    <script type="module" src="./group_withdraw.js"></script>
+</div>
+
+<script type="module" src="./group_withdraw.js"></script>
 </body>
 </html>
