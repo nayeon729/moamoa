@@ -1,5 +1,5 @@
 // main.js
-import { db, checkLogin, setupLogout } from '../../js/utils/helpers.js';
+import { db, checkLogin, setupLogout,loadHTML } from '../../js/utils/helpers.js';
 import { Calendar } from 'https://cdn.skypack.dev/@fullcalendar/core';
 import dayGridPlugin from 'https://cdn.skypack.dev/@fullcalendar/daygrid';
 
@@ -13,12 +13,6 @@ document.addEventListener('DOMContentLoaded', async () => {
   initializeCalendar(currentUser);
   loadPrices();
 });
-
-async function loadHTML() {
-  const response = await fetch('../common/common.html');
-  const html = await response.text();
-  document.getElementById('top-section').innerHTML = html;
-}
 
 async function setupSelectGroup(currentUser) {
 

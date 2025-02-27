@@ -39,3 +39,10 @@ export function setupLogout() {
     });
   }
 }
+
+// 공통 헤더 로드 함수
+export async function loadHTML() {
+  const response = await fetch('../common/common.html');
+  const html = await response.text();
+  document.getElementById('top-section').innerHTML = html;
+}

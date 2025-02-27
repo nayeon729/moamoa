@@ -15,8 +15,9 @@ body {
   align-items: center;
   padding:0;
   background-color: white;
-  height: 15vh; /* 화면의 20%를 차지하도록 설정 */
+  height: 150px; /* 화면의 20%를 차지하도록 설정 */
   width: 100%;
+  border-style: hidden;
 }
 
 
@@ -104,8 +105,9 @@ body {
 /*네비게이션바*/
 
 #navbar {
-  margin-top: 60px;
-  margin-right: 40px;
+  position: absolute;
+  top:80px;
+  right:45px;
   display: flex;
   justify-content: center;
   width: 85%;
