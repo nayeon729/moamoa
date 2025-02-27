@@ -5,27 +5,17 @@
   <title>가계부 관리 앱 - 메인</title>
   <link rel="stylesheet" href="../../css/common.css">
   <link rel="stylesheet" href="./main.css">
-  <!-- Bulma CSS -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
   <!-- FullCalendar CSS -->
   <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/main.min.css" rel="stylesheet">
 </head>
 <body>
 <!-- 공통 헤더 (메인 페이지 전용) -->
-<header id="common-header">
+<header id="top-section">
   <!-- Common header will be loaded here -->
 </header>
 
-<!-- 제이쿼리 방식 -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script>
-  $(document).ready(function() {
-    $("#common-header").load("../common/common.html");
-  });
-</script>
-
 <!-- 메인 콘텐츠 영역 -->
-<section id="main-section">
+<section id="bottom-section">
   <div class="main-container">
     <!-- 인라인 달력 -->
     <div class="calendar-wrapper" style="margin-bottom: 1rem;">
@@ -42,16 +32,7 @@
         </select>
         <button type="submit">등록</button>
       </form>
-      <h2>통계 차트</h2>
-      <div id="chart-placeholder">(통계 차트 자리)</div>
     </div>
-    <!-- 우측: 시세 정보 -->
-    <aside class="sidebar">
-      <h3>농수산물 시세</h3>
-      <div id="agriPrices">(시세 정보)</div>
-      <h3>기름값 시세</h3>
-      <div id="fuelPrices">(시세 정보)</div>
-    </aside>
   </div>
 </section>
 <script type="module" src="./main.js"></script>

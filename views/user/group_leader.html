@@ -1,28 +1,67 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="../../css/group_management.css">
-    <link rel="stylesheet" href="./group_leader.css">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>그룹장 위임</title>
+    <link rel="stylesheet" href="../../css/group_management.css" />
+    <link rel="stylesheet" href="./group_leader.css" />
 </head>
 <body>
-    <div id="tabs">
-        <a href="#" id="tab-active">그룹 관리</a>
-        <a href="#" id="tab">계정 설정</a>
-    </div>
-    <div>
-        <div id="navbar">
-            <a href="#" id="nav">그룹 생성</a>
-            <a href="#" id="nav-active">그룹장 지정</a>
-            <a href="#" id="nav">그룹원 관리</a>
-            <a href="#" id="nav">그룹 탈퇴</a>
+<!-- 공통 헤더 (메인 페이지 전용) -->
+<header id="top-section">
+    <!-- Common header will be loaded here -->
+</header>
+
+<!-- 제이쿼리 방식 -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#top-section").load("../common/common_group.html", function () {
+            $.getScript("../common/common-nav.js");
+        });
+    });
+</script>
+
+<div id="container">
+    <!-- 현재 리더인 그룹 목록 -->
+    <div class="table-wrapper">
+        <table id="leader-group-table" border="1">
+            <thead>
+            <tr>
+                <th>내가 그룹장인 그룹 목록</th>
+            </tr>
+            </thead>
+            <tbody>
+            <!-- JS에서 그룹 목록 렌더링 -->
+            </tbody>
+        </table>
+        <div id="selected-leader-group-display" style="margin-top: 10px; text-align: center;">
+            선택된 그룹: <span id="selected-leader-group-name">없음</span>
         </div>
     </div>
-<div id="container">    
-            <button>버튼</button>
 
-        <a href="#" id="main">메인 화면</a>
+    <!-- 선택된 그룹의 구성원 목록 -->
+    <div class="table-wrapper">
+        <table id="member-table" border="1">
+            <thead>
+            <tr>
+                <th>그룹 멤버</th>
+            </tr>
+            </thead>
+            <tbody>
+            <!-- JS에서 구성원 목록 렌더링 -->
+            </tbody>
+        </table>
+        <div id="selected-member-display" style="margin-top: 10px; text-align: center;">
+            선택된 구성원: <span id="selected-member-name">없음</span>
+        </div>
+        <div id="delegate-btn-wrapper" style="margin-top: 10px; text-align: center;">
+            <button id="delegate-btn">그룹장 위임</button>
+        </div>
+    </div>
+</div>
+
+<script type="module" src="./group_leader.js"></script>
 </body>
 </html>

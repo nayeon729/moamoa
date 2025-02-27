@@ -10,14 +10,14 @@ body {
     font-family: 'Arial', sans-serif;
     overflow: hidden;
     } 
-    #tabs {
+    #tabs, .tabs{
         height: auto;
         display: flex;
         align-items: center;
         justify-content: center;
     }
     /*선택되지 않은 탭에 적용하면 되는 스타일*/
-    #tab {
+    #tab, .tab {
         padding: 10px 100px;
         background-color: #1B8C42;
         border: 1px solid white;
@@ -27,11 +27,11 @@ body {
         text-decoration: none;
     }
 
-    #tab:hover{
+    #tab:hover, .tab:hover {
         font-size: 17px; /* 호버 시 글자 크기 */
     }
     /*선택되어 있는 탭에 적용하면 되는 스타일*/
-    #tab-active {
+    #tab-active, .tab-active {
         padding: 10px 100px;
         border: 1px solid white;
         cursor: pointer;
@@ -41,7 +41,7 @@ body {
         text-decoration: none;
         font-weight:600;
     }
-    #tab-active:hover{
+    #tab-active:hover, .tab-active:hover{
         font-size: 17px; /* 호버 시 글자 크기 */
     }
     /*선택되어 있는 탭에 적용하면 되는 스타일*/
@@ -92,8 +92,8 @@ body {
     }
 
     /*선택되지 않은 메뉴에 적용하면 되는 스타일*/
-    #nav {
-        padding: 10px 28px;
+    #nav, .nav {
+        padding: 10px 30px;
         background-color: #45BF86;
         border: 1px solid white;
         color: white;
@@ -102,8 +102,8 @@ body {
         text-decoration: none;
     }
     /*선택되어 있는 메뉴에 적용하면 되는 스타일*/
-    #nav-active {
-        padding: 10px 28px;
+    #nav-active, .nav-active {
+        padding: 10px 30px;
         border: 1px solid white;
         cursor: pointer;
         border-radius:5px;
@@ -112,3 +112,24 @@ body {
         font-weight:600;
         text-decoration: none;
     }
+
+#back-to-main {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    padding: 8px 16px;
+    background-color: #1B8C42;
+    color: white;
+    border: 1px solid white;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+#back-to-main:hover {
+    background-color: white;
+    color: #38734D;
+    font-size: 15px;
+}
