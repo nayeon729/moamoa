@@ -122,6 +122,7 @@ export async function setupSelectGroup(currentUser) {
   // 선택 변경 시 로컬스토리지에 선택값 저장
   groupSelect.addEventListener('change', () => {
     localStorage.setItem('selectedGroup', groupSelect.value);
+    window.location.reload();
   });
 }
 

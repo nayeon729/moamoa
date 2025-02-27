@@ -1,5 +1,12 @@
-$(document).ready(function () {
-    $("#top-section").load("../common/common.html");
+import { db, checkLogin, setupLogout, loadHTML, setupSelectGroup, setupnickName} from '../../js/utils/helpers.js';
+
+$(document).ready(async function () {
+
+     const currentUser = checkLogin();
+     await loadHTML();
+     setupLogout();
+     await setupSelectGroup(currentUser);
+     await setupnickName(currentUser);
 
      // Dummy function to simulate Utils.months() used in Chart.js example.
      const Utils = {
@@ -39,5 +46,7 @@ $(document).ready(function () {
         document.getElementById('myChart'),
         config
     );
+
+    
 
 });
