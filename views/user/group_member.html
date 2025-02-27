@@ -26,7 +26,50 @@
         });
     </script>
     
-    <div id="container">    
+    <div id="container">
+        <!-- 그룹 목록 테이블 -->
+        <div class="table-wrapper">
+            <table id="group-table" border="1">
+                <thead>
+                <tr>
+                    <th>그룹 목록</th>
+                </tr>
+                </thead>
+                <tbody>
+                <!-- JS에서 그룹 목록 렌더링 -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- 사용자 목록 테이블 -->
+        <div class="table-wrapper">
+            <table id="user-table" border="1">
+                <thead>
+                <tr>
+                    <th>선택된 그룹의 사용자</th>
+                </tr>
+                </thead>
+                <tbody>
+                <!-- JS에서 사용자 목록 렌더링 -->
+                </tbody>
+            </table>
+            <!-- 선택된 그룹을 표시하는 부분 -->
+            <div id="selected-group-display" style="margin-top: 10px; text-align: center;">
+                선택된 그룹: <span id="selected-group-name">없음</span>
+            </div>
+            <!-- 선택된 사용자 표시 -->
+            <div id="selected-user-display" style="margin-top: 10px; text-align: center;">
+                선택된 사용자: <span id="selected-user-name">없음</span>
+            </div>
+            <!-- 사용자 추가 버튼 -->
+            <div id="user-add-wrapper" style="margin-top: 10px; text-align: center;">
+                <button id="add-user-btn">선택된 그룹 사용자 추가하기</button>
+            </div>
+            <!-- 선택된 사용자 제거 버튼 -->
+            <div id="user-remove-wrapper" style="margin-top: 10px; text-align: center;">
+                <button id="remove-user-btn">선택된 사용자 제거하기</button>
+            </div>
+        </div>
     </div>
 
     <script type="module" src="./group_member.js"></script>
