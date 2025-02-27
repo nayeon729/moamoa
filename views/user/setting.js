@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       </div>
       <div>
         <label for="password">비밀번호</label>
-        <input type="password" id="password" name="password" placeholder="새 비밀번호" required />
+        <input type="password" id="password" name="password" placeholder="새 비밀번호"  />
       </div>
       <button type="submit">변경하기</button>
     </form>
@@ -52,22 +52,24 @@ document.addEventListener('DOMContentLoaded', async () => {
     const email = document.getElementById('email').value.trim();
     const password = document.getElementById('password').value;
 
-    // bcrypt를 사용하여 비밀번호 암호화
-    let hashedPassword;
-    try {
-      hashedPassword = await bcrypt.hash(password, 10);
-    } catch (err) {
-      console.error('비밀번호 암호화 실패:', err);
-      alert('비밀번호 암호화에 실패했습니다.');
-      return;
-    }
-
     // 업데이트할 데이터 구성 (user 테이블 컬럼 기준)
     const updateData = {
-      nickname,
-      email,
-      password: hashedPassword
+      nickname : nickname,
+      email : email
     };
+
+    // 비밀번호 입력이 있으면 암호화 및 updateData에 추가
+    if (password.trim()) {
+      let hashedPassword;
+      try {
+        hashedPassword = await bcrypt.hash(password, 10);
+      } catch (err) {
+        console.error('비밀번호 암호화 실패:', err);
+        alert('비밀번호 암호화에 실패했습니다.');
+        return;
+      }
+      updateData.password = hashedPassword;
+    }
 
     // Supabase db 업데이트: user 테이블에서 현재 사용자(user_id) 정보 변경
     const { data, error } = await db
