@@ -1,6 +1,10 @@
-import { db } from '../../js/utils/helpers.js';
+import { db, checkLogin, setupLogout, loadHTML} from '../../js/utils/helpers.js';
 
-document.addEventListener('DOMContentLoaded', () => {
+
+document.addEventListener('DOMContentLoaded', async() => {
+ const currentUser = checkLogin();
+ await loadHTML();
+ setupLogout();
  dbbring();
 });
 
@@ -9,7 +13,20 @@ document.addEventListener('DOMContentLoaded', () => {
 async function dbbring(){
     const { data, error } = await db
     .from('ledger')
-    .select('*')
+    .select(`
+    ledger_id, 
+    group_id, 
+    user_id, 
+    amount, 
+    transaction_date, 
+    description,
+    electronics (
+        electronics_id, 
+        content, 
+        warranty_expiry, 
+        free_repair_expiry,
+        last_cleaned_date )
+    `)
     .eq('category', 'asset');
     console.log(data);
     if (error) {
@@ -25,9 +42,9 @@ async function dbbring(){
                 <td>${item.description}</td>
                 <td>${item.group_id}</td>
                 <td>${item.purchase_date}</td>
-                <td>${item.usage_period}</td>
-                <td>${item.warranty_expiry}</td>
-                <td>${item.last_cleaned_date}</td>
+                <td contenteditable="true">${item.usage_period}</td>
+                <td contenteditable="true">${item.warranty_expiry}</td>
+                <td contenteditable="true">${item.last_cleaned_date}</td>
                 <td><button class="delete-btn" data-id="${item.electronics_id}">삭제</button></td>
             </tr>
         `;

@@ -1,18 +1,19 @@
 // main.js
-import { db, checkLogin, setupLogout,loadHTML } from '../../js/utils/helpers.js';
+import { db, checkLogin, setupLogout,loadHTML,setupSelectGroup,setupnickName } from '../../js/utils/helpers.js';
 import { Calendar } from 'https://cdn.skypack.dev/@fullcalendar/core';
 import dayGridPlugin from 'https://cdn.skypack.dev/@fullcalendar/daygrid';
 
 document.addEventListener('DOMContentLoaded', async () => {
-  await loadHTML();
   const currentUser = checkLogin();
+  await loadHTML();
   setupLogout();
-  setupSelectGroup(currentUser);
-  setupnickName(currentUser);
+  await setupSelectGroup(currentUser);
+  await setupnickName(currentUser);
+  loadLedger(currentUser);
   setupLedgerForm(currentUser);
   initializeCalendar(currentUser);
-  loadPrices();
 });
+
 
 async function setupSelectGroup(currentUser) {
 
@@ -78,6 +79,8 @@ async function setupnickName(currentUser) {
   }
 }
 
+
+
 function setupLedgerForm(currentUser) {
   const ledgerForm = document.getElementById('ledgerForm');
   if (ledgerForm) {
@@ -88,7 +91,7 @@ function setupLedgerForm(currentUser) {
       const date = new Date().toISOString();
       const groupSelect = document.getElementById('groupSelect');
 
-      console.log(groupSelect.value, currentUser, amount, type, date);
+      console.log('등록 정보:', groupSelect.value, currentUser, amount, type, date);
 
       const { data, error } = await db
           .from('ledger')
@@ -141,8 +144,8 @@ function initializeCalendar(currentUser) {
           }
 
           const events = entries.map(entry => ({
-            title: `${entry.type === 'income' ? '수입' : '지출'}: ${entry.amount}원`,
-            start: entry.date,
+            title: `${entry.transaction_type === 'income' ? '수입' : '지출'}: ${entry.amount}원`,
+            start: entry.transaction_date,
             allDay: true
           }));
 
@@ -159,6 +162,7 @@ function initializeCalendar(currentUser) {
 
 async function loadLedger(userId) {
   try {
+    const groupSelect = document.getElementById('groupSelect');
     const { data: entries, error } = await db
         .from('ledger')
         .select('*')
@@ -176,11 +180,4 @@ async function loadLedger(userId) {
   } catch (err) {
     console.error('예기치 못한 오류:', err);
   }
-}
-
-function loadPrices() {
-  const agriElem = document.getElementById('agriPrices');
-  const fuelElem = document.getElementById('fuelPrices');
-  if (agriElem) agriElem.textContent = "배추: 3,000원, 감자: 2,500원";
-  if (fuelElem) fuelElem.textContent = "휘발유: 1,700원/L, 경유: 1,600원/L";
 }
