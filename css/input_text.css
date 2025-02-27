@@ -1,0 +1,9 @@
+input[type="text"]{
+    color:#244a31;
+    height: 20px;
+    font-weight: 600;
+    /* 테이블 입력 시 */
+    /* border: 0; */
+    border:2px solid #38734D;
+    border-radius: 5px;
+}

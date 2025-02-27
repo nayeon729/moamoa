@@ -8,23 +8,70 @@
     <link rel="stylesheet" href="./group_member.css">
 </head>
 <body>
-    <body>
-        <div id="tabs">
-            <a href="#" id="tab-active">그룹 관리</a>
-            <a href="#" id="tab">계정 설정</a>
+    <!-- 공통 헤더 (메인 페이지 전용) -->
+    <header id="top-section">
+    <!-- Common header will be loaded here -->
+    </header>
+    
+    <!-- 제이쿼리 방식 -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+        // 공통 헤더 로드 후에 콜백으로 common-nav.js를 실행
+        $("#top-section").load("../common/common_group.html", function() {
+            // common_group.html 내부에 #navbar가 있다고 가정합니다.
+            // 헤더 로드 후에 common-nav.js 실행
+            $.getScript("../common/common-nav.js");
+        });
+        });
+    </script>
+    
+    <div id="container">
+        <!-- 그룹 목록 테이블 -->
+        <div class="table-wrapper">
+            <table id="group-table" border="1">
+                <thead>
+                <tr>
+                    <th>그룹 목록</th>
+                </tr>
+                </thead>
+                <tbody>
+                <!-- JS에서 그룹 목록 렌더링 -->
+                </tbody>
+            </table>
         </div>
-        <div>
-            <div id="navbar">
-                <a href="#" id="nav">그룹 생성</a>
-                <a href="#" id="nav">그룹장 지정</a>
-                <a href="#" id="nav-active">그룹원 관리</a>
-                <a href="#" id="nav">그룹 탈퇴</a>
+
+        <!-- 사용자 목록 테이블 -->
+        <div class="table-wrapper">
+            <table id="user-table" border="1">
+                <thead>
+                <tr>
+                    <th>선택된 그룹의 사용자</th>
+                </tr>
+                </thead>
+                <tbody>
+                <!-- JS에서 사용자 목록 렌더링 -->
+                </tbody>
+            </table>
+            <!-- 선택된 그룹을 표시하는 부분 -->
+            <div id="selected-group-display" style="margin-top: 10px; text-align: center;">
+                선택된 그룹: <span id="selected-group-name">없음</span>
+            </div>
+            <!-- 선택된 사용자 표시 -->
+            <div id="selected-user-display" style="margin-top: 10px; text-align: center;">
+                선택된 사용자: <span id="selected-user-name">없음</span>
+            </div>
+            <!-- 사용자 추가 버튼 -->
+            <div id="user-add-wrapper" style="margin-top: 10px; text-align: center;">
+                <button id="add-user-btn">선택된 그룹 사용자 추가하기</button>
+            </div>
+            <!-- 선택된 사용자 제거 버튼 -->
+            <div id="user-remove-wrapper" style="margin-top: 10px; text-align: center;">
+                <button id="remove-user-btn">선택된 사용자 제거하기</button>
             </div>
         </div>
-    <div id="container">    
-                <button>버튼</button>
-    
-            <a href="#" id="main">메인 화면</a>
-      
+    </div>
+
+    <script type="module" src="./group_member.js"></script>
 </body>
 </html>

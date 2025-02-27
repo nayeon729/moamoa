@@ -1,6 +1,7 @@
 /* 메인 페이지 전용 스타일 (탭 등) */
 #main-section .tabs-container {
   margin-top: 20px;
+  padding-top: 50px;
 }
 
 #main-section .tabs {

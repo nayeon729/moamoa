@@ -8,20 +8,26 @@
     <link rel="stylesheet" href="./setting_withdraw.css">
 </head>
 <body>
-    <div id="tabs">
-        <a href="#" id="tab">그룹 관리</a>
-        <a href="#" id="tab-active">계정 설정</a>
+    <!-- 공통 헤더 (메인 페이지 전용) -->
+    <header id="top-section">
+    <!-- Common header will be loaded here -->
+    </header>
+    
+    <!-- 제이쿼리 방식 -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+          // 공통 헤더 로드 후에 콜백으로 common-nav.js를 실행
+          $("#top-section").load("../common/common_setting.html", function() {
+            // 헤더 로드 후에 common-nav.js 실행
+            $.getScript("../common/common-nav.js");
+          });
+        });
+    </script>    
+    
+    <div id="container">    
     </div>
-    <div>
-        <div id="navbar">
-            <a href="#" id="nav">계정 설정</a>
-            <a href="#" id="nav">메인가계부</a>
-            <a href="#" id="nav-active">회원 탈퇴 </a>
-        </div>
-    </div>
-<div id="container">    
-            <button>버튼</button>
-
-        <a href="#" id="main">메인 화면</a>
+    
+    <script type="module" src="./setting_withdraw.js"></script>
 </body>
 </html>
