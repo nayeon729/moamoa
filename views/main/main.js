@@ -67,7 +67,6 @@ function initializeCalendar(currentUser) {
           const { data: entries, error } = await db
               .from('ledger')
               .select('*')
-              .eq('user_id', currentUser)
               .eq('group_id', groupSelect.value);
 
           if (error) {
