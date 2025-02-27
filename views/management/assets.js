@@ -1,6 +1,10 @@
-import { db } from '../../js/utils/helpers.js';
+import { db, checkLogin, setupLogout, loadHTML} from '../../js/utils/helpers.js';
 
-document.addEventListener('DOMContentLoaded', () => {
+
+document.addEventListener('DOMContentLoaded', async() => {
+ const currentUser = checkLogin();
+ await loadHTML();
+ setupLogout();
  dbbring();
 });
 
@@ -9,7 +13,20 @@ document.addEventListener('DOMContentLoaded', () => {
 async function dbbring(){
     const { data, error } = await db
     .from('ledger')
-    .select('*')
+    .select(`
+    ledger_id, 
+    group_id, 
+    user_id, 
+    amount, 
+    transaction_date, 
+    description,
+    electronics (
+        electronics_id, 
+        content, 
+        warranty_expiry, 
+        free_repair_expiry,
+        last_cleaned_date )
+    `)
     .eq('category', 'asset');
     console.log(data);
     if (error) {
