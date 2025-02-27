@@ -144,5 +144,4 @@ export async function setupnickName(currentUser) {
   if (nicknameEl) {
     nicknameEl.textContent = user.nickname + ' 님';
   }
-
 }
