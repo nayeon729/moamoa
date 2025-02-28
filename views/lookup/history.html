@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="../../css/common.css">
-    <link rel="stylesheet" href="../management/assets.css">
+    <link rel="stylesheet" href="../lookup/history.css">
     <link rel="stylesheet" href="../../css/table.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
@@ -15,24 +15,30 @@
         <!-- Common header will be loaded here -->
     </header>
     
+    <!-- 제이쿼리 방식 -->
+    <!-- <script>
+        $(document).ready(function() {
+            $("#top-section").load("../common/common.html");
+        });
+    </script> -->
+    
     <section id="bottom-section">
         <div id="itemTable-container">
         <table border="1" id="itemTable">
             <thead>
             <tr>
-                <th>품목</th>
-                <th>구입날짜</th>
-                <th>사용기간</th>
-                <th>보증기한</th>
-                <th>무상 수리 기한</th>
-                <th>청소일자</th>
-                <th>삭제</th>
+                <th style="display:none;">유저id</th>
+                <th>그룹원</th>
+                <th>수입/지출</th>
+                <th>날짜</th>
+                <th>내용</th>
+                <th>금액</th>
             </tr>
             </thead>
         </table>
         </div>
 
     </section> 
-    <script type="module" src="./assets.js"></script>   
+    <script type="module" src="./history.js"></script>   
 </body>
 </html>

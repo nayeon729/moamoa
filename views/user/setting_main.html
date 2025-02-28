@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../../css/settings.css">
+    <link rel="stylesheet" href="./setting_main.css">
+</head>
+<body>
+    <!-- 공통 헤더 (메인 페이지 전용) -->
+    <header id="top-section">
+    <!-- Common header will be loaded here -->
+    </header>
+    
+    <!-- 제이쿼리 방식 -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+          // 공통 헤더 로드 후에 콜백으로 common-nav.js를 실행
+          $("#top-section").load("../common/common_setting.html", function() {
+            // 헤더 로드 후에 common-nav.js 실행
+            $.getScript("../common/common-nav.js");
+          });
+        });
+    </script>    
+    
+    <div id="container">   
+        
+    <table border="1">
+        <tr>
+            <th>그룹명</th>
+            <th>메인</th>
+        </tr>
+        <tr>
+            <td></td>
+            <td><input type="checkbox" name="chk" onclick="onlyOne(this)"></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td><input type="checkbox" name="chk" onclick="onlyOne(this)"></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td><input type="checkbox" name="chk" onclick="onlyOne(this)"></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td><input type="checkbox" name="chk" onclick="onlyOne(this)"></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td><input type="checkbox" name="chk" onclick="onlyOne(this)"></td>
+        </tr>
+    </table>
+    <button>저장</button>
+    <script>
+        function onlyOne(checkbox) {
+          const checkboxes = document.getElementsByName('chk');
+          checkboxes.forEach((item) => {
+            if (item !== checkbox) {
+              item.checked = false;
+            }
+          });
+        }
+        </script>
+    </div>
+    
+    <script type="module" src="./setting_main.js"></script>
+</body>
+</html>

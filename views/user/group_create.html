@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../../css/group_management.css">
+    <link rel="stylesheet" href="./group_create.css">
+</head>
+<body>
+
+    <!-- 공통 헤더 (메인 페이지 전용) -->
+    <header id="top-section">
+    <!-- Common header will be loaded here -->
+    </header>
+  
+    <!-- 제이쿼리 방식 -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+          // 공통 헤더 로드 후에 콜백으로 common-nav.js를 실행
+          $("#top-section").load("../common/common_group.html", function() {
+            // common_group.html 내부에 #navbar가 있다고 가정합니다.
+            // 헤더 로드 후에 common-nav.js 실행
+            $.getScript("../common/common-nav.js");
+          });
+        });
+    </script>
+
+<div id="container">    
+    <div id="group-create">
+        <h1>그룹 생성</h1>
+        <form id = "groupform">
+            <input type="text" id="group-name" placeholder="그룹 이름" required>
+            <button type="submit">생성</button>
+        </form>
+    </div>
+</div>
+
+<script type="module" src="./group_create.js"></script>
+</body>
+</html>

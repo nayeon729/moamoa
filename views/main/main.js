@@ -1,15 +1,19 @@
-// main.js
-import { db, checkLogin, setupLogout } from '../../js/utils/helpers.js';
+import { db, checkLogin, setupLogout, loadHTML, setupSelectGroup, setupnickName } from '../../js/utils/helpers.js';
 import { Calendar } from 'https://cdn.skypack.dev/@fullcalendar/core';
 import dayGridPlugin from 'https://cdn.skypack.dev/@fullcalendar/daygrid';
 
-document.addEventListener('DOMContentLoaded', () => {
+// 캘린더 인스턴스를 전역 변수로 선언
+let calendar;
+
+document.addEventListener('DOMContentLoaded', async () => {
   const currentUser = checkLogin();
+  await loadHTML();
   setupLogout();
+  await setupSelectGroup(currentUser);
+  await setupnickName(currentUser);
+  loadLedger(currentUser);
   setupLedgerForm(currentUser);
   initializeCalendar(currentUser);
-  loadLedger(currentUser.id);
-  loadPrices();
 });
 
 function setupLedgerForm(currentUser) {
@@ -19,11 +23,25 @@ function setupLedgerForm(currentUser) {
       e.preventDefault();
       const amount = parseInt(document.getElementById('amount').value);
       const type = document.getElementById('type').value;
-      const date = new Date().toISOString();
+      // ledger 등록 시 선택한 날짜 사용 (예: "2025-02-26")
+      const date = document.getElementById('transactionDate').value;
+      const groupSelect = document.getElementById('groupSelect');
+      const category = document.getElementById('category').value;
 
+      console.log('등록 정보:', groupSelect.value, currentUser, amount, type, date);
+
+      // DB 등록 시 date 형식이 ISO string이어야 한다면, 필요에 따라 변환할 수 있습니다.
+      // 예: new Date(date).toISOString()
       const { data, error } = await db
           .from('ledger')
-          .insert([{ user_id: currentUser.id, type, amount, date }]);
+          .insert([{
+            group_id: groupSelect.value,
+            user_id: currentUser,
+            transaction_type: type,
+            transaction_date: date, // 혹은 new Date(date).toISOString()
+            category: category,
+            amount: amount
+          }]);
 
       if (error) {
         alert('가계부 등록 중 오류: ' + error.message);
@@ -31,8 +49,15 @@ function setupLedgerForm(currentUser) {
       }
 
       alert("내역이 등록되었습니다.");
-      ledgerForm.reset();
-      loadLedger(currentUser.id);
+      window.location.reload();
+    });
+
+    // ledger 폼의 날짜 필드 변경 시 캘린더 이동
+    document.getElementById('transactionDate').addEventListener('change', (e) => {
+      const selectedDate = e.target.value;
+      if (calendar) {
+        calendar.gotoDate(selectedDate);
+      }
     });
   }
 }
@@ -40,7 +65,7 @@ function setupLedgerForm(currentUser) {
 function initializeCalendar(currentUser) {
   const calendarEl = document.getElementById('calendar');
   if (calendarEl) {
-    const calendar = new Calendar(calendarEl, {
+    calendar = new Calendar(calendarEl, {
       plugins: [dayGridPlugin],
       initialView: 'dayGridMonth',
       locale: 'ko',
@@ -50,15 +75,17 @@ function initializeCalendar(currentUser) {
         right: 'dayGridMonth,timeGridWeek,timeGridDay'
       },
       selectable: true,
-      dateClick(info) {
-        alert(`선택한 날짜: ${info.dateStr}`);
+      // 캘린더에서 날짜 클릭 시 ledger 폼의 날짜 필드 업데이트
+      dateClick: function(info) {
+        document.getElementById('transactionDate').value = info.dateStr;
       },
       events: async (fetchInfo, successCallback, failureCallback) => {
         try {
+          const groupSelect = document.getElementById('groupSelect');
           const { data: entries, error } = await db
               .from('ledger')
               .select('*')
-              .eq('user_id', currentUser.id);
+              .eq('group_id', groupSelect.value);
 
           if (error) {
             console.error('이벤트 불러오기 오류:', error);
@@ -66,11 +93,42 @@ function initializeCalendar(currentUser) {
             return;
           }
 
-          const events = entries.map(entry => ({
-            title: `${entry.type === 'income' ? '수입' : '지출'}: ${entry.amount}원`,
-            start: entry.date,
-            allDay: true
-          }));
+
+          // 날짜별로 항목을 그룹화 (날짜만 추출)
+          const groupedEntries = {};
+          entries.forEach(entry => {
+            const date = entry.transaction_date.split('T')[0];
+            if (!groupedEntries[date]) {
+              groupedEntries[date] = { income: 0, expense: 0 };
+            }
+            if (entry.transaction_type === 'income') {
+              groupedEntries[date].income += entry.amount;
+            } else if (entry.transaction_type === 'expense') {
+              groupedEntries[date].expense += entry.amount;
+            }
+          });
+
+          // 각 날짜에 대해 수입, 지출을 별도의 이벤트로 생성
+          const events = [];
+          Object.keys(groupedEntries).forEach(date => {
+            const { income, expense } = groupedEntries[date];
+            if (income > 0) {
+              events.push({
+                title: `수입: ${income}원`,
+                start: date,
+                allDay: true,
+                color: 'green' // 수입 이벤트에 적용할 색상 (선택사항)
+              });
+            }
+            if (expense > 0) {
+              events.push({
+                title: `지출: ${expense}원`,
+                start: date,
+                allDay: true,
+                color: 'red' // 지출 이벤트에 적용할 색상 (선택사항)
+              });
+            }
+          });
 
           successCallback(events);
         } catch (err) {
@@ -85,11 +143,13 @@ function initializeCalendar(currentUser) {
 
 async function loadLedger(userId) {
   try {
+    const groupSelect = document.getElementById('groupSelect');
     const { data: entries, error } = await db
         .from('ledger')
         .select('*')
         .eq('user_id', userId)
-        .order('date', { ascending: false });
+        .eq('group_id', groupSelect.value)
+        .order('transaction_type', { ascending: false });
 
     if (error) {
       console.error('가계부 내역 조회 오류:', error);
@@ -101,11 +161,4 @@ async function loadLedger(userId) {
   } catch (err) {
     console.error('예기치 못한 오류:', err);
   }
-}
-
-function loadPrices() {
-  const agriElem = document.getElementById('agriPrices');
-  const fuelElem = document.getElementById('fuelPrices');
-  if (agriElem) agriElem.textContent = "배추: 3,000원, 감자: 2,500원";
-  if (fuelElem) fuelElem.textContent = "휘발유: 1,700원/L, 경유: 1,600원/L";
 }

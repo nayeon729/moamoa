@@ -11,7 +11,7 @@ body {
   /* 요소들을 세로로 배치 */
   height: 100vh;
   /* 화면 전체 높이를 차지 */
-  background: linear-gradient(0deg,#94c1ce, #01c1f1);
+  background: linear-gradient(0deg, #f6fab9, #6bbe99);
   /* 배경 그라디언트 효과 */
   text-align: center;
   /* 텍스트 가운데 정렬 */
@@ -32,11 +32,12 @@ body {
 }
 
 #container h1 {
-  color: #17a1fd;
+  color: #1B8C42;
 }
 
 #container p {
   text-align: left;
+  color: #0b5224;
 }
 
 #container input[type="text"],
@@ -51,7 +52,7 @@ body {
 #container button {
   width: 92%;
   padding: 10px;
-  background-color: #17a1fd;
+  background-color: #008d07;
   color: white;
   font-size: 14px;
   border: none;
@@ -61,15 +62,20 @@ body {
 }
 
 #container button:hover {
-  background-color: #0056b3;
+  background-color: #126830;
 }
 
 
 #signup-btn {
-  color: #0056b3;
+  color: #00b309;
   /* 글자 색상 */
   font-size: 14px;
   /* 글자 크기 */
   text-decoration: none;
   /* 밑줄 제거 */
+}
+
+#signup-btn:hover {
+  color: #005a05;
+  /* 마우스를 올렸을 때 배경 색상 */
 }

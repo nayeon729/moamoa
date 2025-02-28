@@ -1,0 +1,25 @@
+table {
+    justify-content: center;
+    align-items: center;
+    table-layout: fixed;
+    width: 85%;
+    border-collapse: collapse;
+    
+ 
+}
+th, td {
+    width: 50%;
+    height: 50px; /* 셀 높이 고정 */
+    border: 1px solid black;
+    text-align: center;
+}
+
+#itemTable-container{
+    max-height: 80vh; /* 높이 제한 (필요에 따라 조정 가능) */
+    overflow-y: auto; /* 세로 스크롤 활성화 */
+    border: 1px solid #ccc; /* 테두리 추가 */
+}
+#itemTable{
+    max-height: 100px; /* 높이 제한 (필요에 따라 조정 가능) */
+    overflow-y: auto; /* 세로 스크롤 활성화 */
+}
