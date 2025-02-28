@@ -12,10 +12,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     <p>정말로 회원 탈퇴를 진행하시겠습니까? 이 작업은 되돌릴 수 없습니다.</p>
     <form id="withdraw-form">
       <div>
-        <label for="userId">아이디:</label>
-        <input type="text" id="userId" required>
-      </div>
-      <div>
         <label for="password">비밀번호:</label>
         <input type="password" id="password" required>
       </div>
@@ -35,15 +31,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     e.preventDefault();
 
     // 폼 입력 값 가져오기
-    const inputUserId = document.getElementById('userId').value.trim();
     const password = document.getElementById('password').value;
     const confirmCheckbox = document.getElementById('confirmCheckbox').checked;
-
-    // 현재 접속한 아이디와 입력된 아이디 비교
-    if (inputUserId !== currentUser) {
-      alert('입력하신 아이디가 현재 로그인한 아이디와 일치하지 않습니다.');
-      return;
-    }
 
     // 체크박스가 체크되어 있지 않으면 탈퇴 진행 안함
     if (!confirmCheckbox) {
