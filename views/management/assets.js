@@ -109,7 +109,7 @@ async function dbbring() {
             const table = document.getElementById('itemTable');
             const rows = table.querySelectorAll('tr');
 
-            rows.forEach((row, index) => {
+            rows.forEach(async (row, index) => {
                 if (index === 0) return;
             let group_id = row.querySelector(".group_class").textContent.trim();
             let ledger_id = row.querySelector(".ledger_class").textContent.trim();
@@ -125,18 +125,15 @@ async function dbbring() {
             console.log("Usage_period", usage_period);
             console.log("Last_cleaned_date:", last_cleaned_date);
 
-        });
-
             const { data, error } = await db
                 .from('electronics')
                 .upsert([{
                     ledger_id: ledger_id,
                     group_id: group_id,
-                    description: description,
-                    transaction_date: transaction_date,
-                    usage_period: usage_period,
-                    last_cleaned_date: last_cleaned_date,
-                    is_deleted: true
+                    content: description,
+                    warranty_expiry: transaction_date,
+                    free_repair_expiry: usage_period,
+                    last_cleaned_date: last_cleaned_date
                 }
                 ], { onConflict: 'ledger_id' });
 
@@ -146,8 +143,11 @@ async function dbbring() {
                 console.error("데이터 가져오기 실패:", error);
                 return;
             }
-        }
-    );
+
+            alert("저장되었습니다.");
+            windows.location.reload();
+        });
+    });
 }
 
 
