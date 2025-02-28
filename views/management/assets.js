@@ -60,10 +60,9 @@ async function dbbring() {
                 <td class="group_class"style="display:none;">${item.group_id}</td>
                 <td class="description_class">${item.description}</td>
                 <td class="transaction_dates_class">${item.transaction_date}</td>
-                <td contenteditable="true" class="usage_period_class">${item.usage_period?.usage_period || ''}</td>
-                <td contenteditable="true" class="warranty_expiry_class">${item.warranty_expiry?.warranty_expiry || ''}</td>
-                <td contenteditable="true" class="free_repair_expiry_class">${item.free_repair_expiry?.free_repair_expiry || ''}</td>
-                <td contenteditable="true" class="last_cleaned_date_class">${item.last_cleaned_date?.last_cleaned_date || ''}</td>
+                <td contenteditable="true" class="warranty_expiry_class">${item.electronics.warranty_expiry}</td>
+                <td contenteditable="true" class="free_repair_expiry_class">${item.electronics.free_repair_expiry}</td>
+                <td contenteditable="true" class="last_cleaned_date_class">${item.electronics.last_cleaned_date}</td>
                 <td><button class="delete-btn" data-id="${item.electronics_id}">삭제</button></td>
             </tr>
         `;
