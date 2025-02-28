@@ -32,18 +32,26 @@ async function dbbring(){
         last_cleaned_date,
         is_deleted )
     `)
-    .eq('category', 'asset')  
-    .or('electronics.is_deleted.is.null,electronics.is_deleted.neq.false', { foreignTable: 'electronics' }); 
-   // .neq('electronics.is_deleted', false); // electronics 테이블의 is_deleted 필터
-    console.log(data);
+    .eq('category', 'asset');
+
     if (error) {
         console.error("데이터 가져오기 실패:", error);
         return;
     }
 
+    // client-side 필터링: electronics가 존재하면 is_deleted 값이 false인 행은 제외
+    const filteredData = data.filter(item => {
+        // electronics가 없으면 그대로 포함
+        if (!item.electronics) return true;
+        // electronics가 있으면 is_deleted가 true가 아닌 경우 포함
+        return item.electronics.is_deleted !== true;
+    });
+
+    console.log(filteredData);
+
     const table = document.getElementById('itemTable');
-    
-    data.forEach(item => {
+
+    filteredData.forEach(item => {
         let row = `
             <tr>
                 <td class="ledger_class" style="display:none;">${item.ledger_id}</td>
@@ -78,7 +86,7 @@ async function dbbring(){
             .upsert([{
             ledger_id : ledger_id,
             group_id : group_id,
-            is_deleted : false
+            is_deleted : true
            }
            ], { onConflict: 'ledger_id' });
 
