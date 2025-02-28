@@ -1,7 +1,9 @@
-// main.js
-import { db, checkLogin, setupLogout,loadHTML,setupSelectGroup,setupnickName } from '../../js/utils/helpers.js';
+import { db, checkLogin, setupLogout, loadHTML, setupSelectGroup, setupnickName } from '../../js/utils/helpers.js';
 import { Calendar } from 'https://cdn.skypack.dev/@fullcalendar/core';
 import dayGridPlugin from 'https://cdn.skypack.dev/@fullcalendar/daygrid';
+
+// 캘린더 인스턴스를 전역 변수로 선언
+let calendar;
 
 document.addEventListener('DOMContentLoaded', async () => {
   const currentUser = checkLogin();
@@ -21,21 +23,25 @@ function setupLedgerForm(currentUser) {
       e.preventDefault();
       const amount = parseInt(document.getElementById('amount').value);
       const type = document.getElementById('type').value;
-      const date = new Date().toISOString();
+      // ledger 등록 시 선택한 날짜 사용 (예: "2025-02-26")
+      const date = document.getElementById('transactionDate').value;
       const groupSelect = document.getElementById('groupSelect');
       const category = document.getElementById('category').value;
 
       console.log('등록 정보:', groupSelect.value, currentUser, amount, type, date);
 
+      // DB 등록 시 date 형식이 ISO string이어야 한다면, 필요에 따라 변환할 수 있습니다.
+      // 예: new Date(date).toISOString()
       const { data, error } = await db
           .from('ledger')
-          .insert([{ 
-            group_id: groupSelect.value, 
-            user_id: currentUser, 
-            transaction_type: type, 
-            transaction_date: date,
+          .insert([{
+            group_id: groupSelect.value,
+            user_id: currentUser,
+            transaction_type: type,
+            transaction_date: date, // 혹은 new Date(date).toISOString()
             category: category,
-            amount: amount }]);
+            amount: amount
+          }]);
 
       if (error) {
         alert('가계부 등록 중 오류: ' + error.message);
@@ -45,13 +51,21 @@ function setupLedgerForm(currentUser) {
       alert("내역이 등록되었습니다.");
       window.location.reload();
     });
+
+    // ledger 폼의 날짜 필드 변경 시 캘린더 이동
+    document.getElementById('transactionDate').addEventListener('change', (e) => {
+      const selectedDate = e.target.value;
+      if (calendar) {
+        calendar.gotoDate(selectedDate);
+      }
+    });
   }
 }
 
 function initializeCalendar(currentUser) {
   const calendarEl = document.getElementById('calendar');
   if (calendarEl) {
-    const calendar = new Calendar(calendarEl, {
+    calendar = new Calendar(calendarEl, {
       plugins: [dayGridPlugin],
       initialView: 'dayGridMonth',
       locale: 'ko',
@@ -61,6 +75,10 @@ function initializeCalendar(currentUser) {
         right: 'dayGridMonth,timeGridWeek,timeGridDay'
       },
       selectable: true,
+      // 캘린더에서 날짜 클릭 시 ledger 폼의 날짜 필드 업데이트
+      dateClick: function(info) {
+        document.getElementById('transactionDate').value = info.dateStr;
+      },
       events: async (fetchInfo, successCallback, failureCallback) => {
         try {
           const groupSelect = document.getElementById('groupSelect');
