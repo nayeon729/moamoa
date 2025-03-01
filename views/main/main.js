@@ -87,9 +87,9 @@ function initializeCalendar(currentUser) {
       initialView: 'dayGridMonth',
       locale: 'ko',
       headerToolbar: {
-        left: 'prev,next today',
+        left: 'prev',
         center: 'title',
-        right: 'dayGridMonth,timeGridWeek,timeGridDay'
+        right: 'next'
       },
       selectable: true,
       // 캘린더에서 날짜 클릭 시 ledger 폼의 날짜 필드 업데이트
