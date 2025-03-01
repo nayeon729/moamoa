@@ -1,4 +1,4 @@
-import { db,checkLogin, setupLogout, loadHTML, setupSelectGroup, setupnickName } from '../../js/utils/helpers.js';
+import { db,checkLogin, setupLogout, loadHTML, setupSelectGroup, setupnickName,getCurrentGroup } from '../../js/utils/helpers.js';
 
 document.addEventListener('DOMContentLoaded', async() => {
     const currentUser = checkLogin();
@@ -14,8 +14,8 @@ document.addEventListener('DOMContentLoaded', async() => {
 async function dbbring(){
     const { data, error } = await db
     .from('ledger')
-    .select('*')
-    // .eq('category', 'asset');
+    .select('*, user( nickname )')
+    .eq('group_id', getCurrentGroup())
     console.log(data);
     if (error) {
         console.error("데이터 가져오기 실패:", error);
@@ -27,7 +27,8 @@ async function dbbring(){
     data.forEach(item => {
         let row = `
             <tr>
-                <td>${item.user_id}</td>
+                <td style="display:none;">${item.user_id}</td>
+                <td>${item.user.nickname}</td>
                 <td>${item.transaction_type}</td>
                 <td>${item.entry_date}</td>
                 <td>${item.description}</td>

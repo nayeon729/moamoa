@@ -1,7 +1,9 @@
-// main.js
-import { db, checkLogin, setupLogout,loadHTML,setupSelectGroup,setupnickName } from '../../js/utils/helpers.js';
+import { db, checkLogin, setupLogout, loadHTML, setupSelectGroup, setupnickName } from '../../js/utils/helpers.js';
 import { Calendar } from 'https://cdn.skypack.dev/@fullcalendar/core';
 import dayGridPlugin from 'https://cdn.skypack.dev/@fullcalendar/daygrid';
+
+// 캘린더 인스턴스를 전역 변수로 선언
+let calendar;
 
 document.addEventListener('DOMContentLoaded', async () => {
   const currentUser = checkLogin();
@@ -14,73 +16,6 @@ document.addEventListener('DOMContentLoaded', async () => {
   initializeCalendar(currentUser);
 });
 
-
-async function setupSelectGroup(currentUser) {
-
-  // ✅ 1. usergroup 테이블에서 user_id로 group_id 목록 조회
-  const { data: userGroups, error: userGroupError } = await db
-    .from('usergroup')
-    .select('group_id')
-    .eq('user_id', currentUser);
-
-  if (!userGroups.length) return; // 그룹이 없으면 종료
-
-  const groupIds = userGroups.map(group => group.group_id);
-
-  console.log('그룹 아이디 목록:', groupIds);
-
-  // ✅ 2. group 테이블에서 group_id로 name 조회
-  const { data: groups, error: groupError } = await db
-    .from('group')
-    .select('group_id, name')
-    .in('group_id', groupIds); // 여러 조건에 대해 .in() 사용
-
-  if (groupError) throw groupError;
-
-  // ✅ 3. 조회된 그룹들을 select 옵션으로 추가
-  groups.forEach(group => {
-    const option = document.createElement('option');
-    option.value = group.group_id;
-    option.textContent = group.name;
-    groupSelect.appendChild(option);
-  });
-
-  // ✅ 4. userledger 테이블에서 main_ledger_group_id 가져와 선택 설정
-  const { data: userLedger, error: userLedgerError } = await db
-    .from('userledger')
-    .select('main_ledger_group_id')
-    .eq('user_id', currentUser)
-    .single(); // 단일 레코드 조회
-
-  if (userLedgerError) throw userLedgerError;
-
-  if (userLedger?.main_ledger_group_id) {
-    groupSelect.value = userLedger.main_ledger_group_id;
-  }
-
-  loadLedger(currentUser);
-}
-
-async function setupnickName(currentUser) {
-  const { data: user, error } = await db
-    .from('user')
-    .select('nickname')
-    .eq('user_id', currentUser)
-    .single();
-
-  if (error) {
-    console.error('사용자 정보 조회 오류:', error);
-    return;
-  }
-
-  const nicknameEl = document.getElementById('nicknameSpan');
-  if (nicknameEl) {
-    nicknameEl.textContent = user.nickname + ' 님';
-  }
-}
-
-
-
 function setupLedgerForm(currentUser) {
   const ledgerForm = document.getElementById('ledgerForm');
   if (ledgerForm) {
@@ -88,20 +23,25 @@ function setupLedgerForm(currentUser) {
       e.preventDefault();
       const amount = parseInt(document.getElementById('amount').value);
       const type = document.getElementById('type').value;
-      const date = new Date().toISOString();
+      // ledger 등록 시 선택한 날짜 사용 (예: "2025-02-26")
+      const date = document.getElementById('transactionDate').value;
       const groupSelect = document.getElementById('groupSelect');
+      const category = document.getElementById('category').value;
 
       console.log('등록 정보:', groupSelect.value, currentUser, amount, type, date);
 
+      // DB 등록 시 date 형식이 ISO string이어야 한다면, 필요에 따라 변환할 수 있습니다.
+      // 예: new Date(date).toISOString()
       const { data, error } = await db
           .from('ledger')
-          .insert([{ 
-            group_id: groupSelect.value, 
-            user_id: currentUser, 
-            transaction_type: type, 
-            transaction_date: date,
-            category: '', 
-            amount: amount }]);
+          .insert([{
+            group_id: groupSelect.value,
+            user_id: currentUser,
+            transaction_type: type,
+            transaction_date: date, // 혹은 new Date(date).toISOString()
+            category: category,
+            amount: amount
+          }]);
 
       if (error) {
         alert('가계부 등록 중 오류: ' + error.message);
@@ -109,8 +49,15 @@ function setupLedgerForm(currentUser) {
       }
 
       alert("내역이 등록되었습니다.");
-      ledgerForm.reset();
-      loadLedger(currentUser);
+      window.location.reload();
+    });
+
+    // ledger 폼의 날짜 필드 변경 시 캘린더 이동
+    document.getElementById('transactionDate').addEventListener('change', (e) => {
+      const selectedDate = e.target.value;
+      if (calendar) {
+        calendar.gotoDate(selectedDate);
+      }
     });
   }
 }
@@ -118,23 +65,26 @@ function setupLedgerForm(currentUser) {
 function initializeCalendar(currentUser) {
   const calendarEl = document.getElementById('calendar');
   if (calendarEl) {
-    const calendar = new Calendar(calendarEl, {
+    calendar = new Calendar(calendarEl, {
       plugins: [dayGridPlugin],
       initialView: 'dayGridMonth',
       locale: 'ko',
       headerToolbar: {
-        left: 'prev,next today',
+        left: 'prev',
         center: 'title',
-        right: 'dayGridMonth,timeGridWeek,timeGridDay'
+        right: 'next'
       },
       selectable: true,
+      // 캘린더에서 날짜 클릭 시 ledger 폼의 날짜 필드 업데이트
+      dateClick: function(info) {
+        document.getElementById('transactionDate').value = info.dateStr;
+      },
       events: async (fetchInfo, successCallback, failureCallback) => {
         try {
           const groupSelect = document.getElementById('groupSelect');
           const { data: entries, error } = await db
               .from('ledger')
               .select('*')
-              .eq('user_id', currentUser)
               .eq('group_id', groupSelect.value);
 
           if (error) {
@@ -143,11 +93,42 @@ function initializeCalendar(currentUser) {
             return;
           }
 
-          const events = entries.map(entry => ({
-            title: `${entry.transaction_type === 'income' ? '수입' : '지출'}: ${entry.amount}원`,
-            start: entry.transaction_date,
-            allDay: true
-          }));
+
+          // 날짜별로 항목을 그룹화 (날짜만 추출)
+          const groupedEntries = {};
+          entries.forEach(entry => {
+            const date = entry.transaction_date.split('T')[0];
+            if (!groupedEntries[date]) {
+              groupedEntries[date] = { income: 0, expense: 0 };
+            }
+            if (entry.transaction_type === 'income') {
+              groupedEntries[date].income += entry.amount;
+            } else if (entry.transaction_type === 'expense') {
+              groupedEntries[date].expense += entry.amount;
+            }
+          });
+
+          // 각 날짜에 대해 수입, 지출을 별도의 이벤트로 생성
+          const events = [];
+          Object.keys(groupedEntries).forEach(date => {
+            const { income, expense } = groupedEntries[date];
+            if (income > 0) {
+              events.push({
+                title: `수입: ${income}원`,
+                start: date,
+                allDay: true,
+                color: 'green' // 수입 이벤트에 적용할 색상 (선택사항)
+              });
+            }
+            if (expense > 0) {
+              events.push({
+                title: `지출: ${expense}원`,
+                start: date,
+                allDay: true,
+                color: 'red' // 지출 이벤트에 적용할 색상 (선택사항)
+              });
+            }
+          });
 
           successCallback(events);
         } catch (err) {

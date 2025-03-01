@@ -4,7 +4,7 @@ body {
     flex-direction: column;
     align-items: center;
     height: 100vh;
-    background: linear-gradient(12deg, #b3eaec, #CEF2E1);
+    background: linear-gradient(0deg, #fcfaa8, #6bbe99);
     /* 배경 그라디언트 효과 */
     text-align: center;
     font-family: 'Arial', sans-serif;

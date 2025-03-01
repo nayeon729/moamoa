@@ -11,7 +11,7 @@ body {
   /* 요소들을 세로로 배치 */
   height: 100vh;
   /* 화면 전체 높이를 차지 */
-  background: linear-gradient(0deg, #f6fab9, #6bbe99);
+  background: linear-gradient(0deg, #fcfaa8, #6bbe99);
   /* 배경 그라디언트 효과 */
   text-align: center;
   /* 텍스트 가운데 정렬 */
