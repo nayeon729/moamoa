@@ -9,7 +9,7 @@ body {
     /* 요소들을 세로로 배치 */
     height: 100vh;
     /* 화면 전체 높이를 차지 */
-    background: linear-gradient(0deg, #f6fab9, #6bbe99);
+    background: linear-gradient(0deg, #fcfaa8, #6bbe99);
     /* 배경 그라디언트 효과 */
     color: white;
     /* 텍스트 색상을 흰색으로 */
@@ -29,7 +29,7 @@ body {
     /* 상단에서 40px 떨어진 위치 */
     left: 40px;
     /* 왼쪽에서 40px 떨어진 위치 */
-    width: 100px;
+    width: 150px;
     /* 로고 크기 */
     height: auto;
     /* 가로 비율 유지 */
@@ -87,9 +87,12 @@ body {
 /*
 제목 스타일
 */
-.hero h1 {
-    font-size: 3rem;
+h1 {
+    font-size: 2rem;
     /* 글자 크기 설정 */
+    letter-spacing: 4px;
+    font-weight: 700;
+    color: rgb(248, 90, 16);
 }
 
 /*
